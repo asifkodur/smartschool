@@ -1,0 +1,44 @@
+
+
+<html><head><title>Smart School Help</title></head>
+<body bgcolor="black"><font color="white">
+<h1 align="center"><font color="green">
+Smart School</font></h1><br><br>
+<h2><font color="cyan"><u>Introduction</u></font></h2>
+<font color="green"><b><p>Smart School</b></font> is part of an ambitious initiative to computerise most of the school tasks especially quasi-administartive ones. This application helps manage examination by providing progress reports, promotion list and a few other reports </p>
+
+<p> There are two built in users-'admin' and 'teacher'. Neeedless to say, admin is the most previlleged user or administrator. New user cannot be added. The user teacher has limited previlleges in the application. S/he can mainly make mark entry and use few menu options to take Progress card and Promotion List of the particular class. </p>
+<h2><font color="red"><u>How To Begin</u></font><h2/>
+<h3> <u>Step 1</u> </h3>Login as administrator(admin) and get directed to the Admin Dash Board. You shoud have already passed this step as you are reading this help page.
+
+
+<h3><u>Step 2</u> </h3>
+	Certain initial setup has to be made before the user 'teacher' can do jobs. First of them is <i><b>Institution.</b></i> Enter all required information. But school name and school code are not editable. If you want it  for your school contact the author at <i>asif.kodur@gmail.com</i>
+<h3><u>Step 3</u></h3>
+	<i><b>Manage Division</b></i>. Create divisions using this tool. Select Year(academic year) and class. Specifying division name you can add divisions one by one or using to(-) operator. Eg. A-M creates divisions A,B,C,D....upto M. Same tool is meant for removing divisions also. Select division to be removed and click on the button 'Remove Division'.
+<h3><u>Step 4</u></h3>
+	<i><b>CE TE Settings</b></i>. CE and TE settings are essential for all opeartions. Settings of one year is not applicable to other years which you have to set for each year
+<h3><u>step 5</u></h3> 
+	<i><b>Working Days</b></i>. Total school working days should be set for first term, second term and annual exam. This piece of data appears on progress report and final promotion list
+<h2><font color="red"><u>Other Frequent Doubts and Queries</u></font></h2><br>
+<h3><u>How to Add Students</u> </h3><br>
+The easiest way is to use the tool 'Import from Excel' which is available in admin dash board. All you need is excel files which has student data. It should follow this order. First row is assumed to contain headings(Roll No,Admission No,Name). For model <a href='8e.xls'>Click here</a>.  Note,admission number is unique,in other words,it will generate error message if you tryto add students under same admission number. It is not tedious to prepare the excel file as the Samoorna software provides csv files of custom reports which can easily be saved to Microsoft excel format(.xls) using Open Office Calc.
+
+<h3><u>How to Remove Students</u> </h3><br>
+
+Click on 'Remove Student' button. Select the year, standard and division. Check students to be removed and click on 'Proceed' button if you are sure
+<h3><u>Can I Promote Students?</u> </h3><br>
+Yes. Once you add a student with admission number and name you can freely change class or promote. If a student is promoted from one year and class to the other, still his/her score and other details would be available in the previous year. This is only applicable to promotion. If a student is retained in the same class or changed from one class to the other in same year only the latest records would be kept.
+<h3><u>Should a teacher or all teachers work on the same Computer</u> </h3><br>
+No.<font color="green"><b><p>Smart School</b></font> provides a feature so that the software can be installed on any number of computers and each teacher may use different computers, or even a teacher can split work on different computers. This is enabled using 'Import Database' and 'Export Database' devices. The works on a computer can be exported to a portable device like pendrive and be mported using  'Import Database' to the target computer. During the import process the data in the target computer could be overwritten with the imported data.(Need not worry.It will not replace data with empty value). So always try to import the latest data. This feature can be useful at the time of initial setup. All settings can be made in one computer and it can be easily imported to other computers where the software runs. It saves time and eneregy.
+<h3><u>Where Can I Get Progress Report?</u> </h3><br>
+Login as teacher or Select Mark Entry from Admin Panel. Go to specific class. Navigate to the menu Reports->Full Performance Card. There it is, the Progress report of all the students of the class. The menu item 'Performance Card TermII only' is meant to print the second term score on the already printed term I progress report. But when you print using this it paper placement and alignment should be carefully made.
+<body>
+<html>
+
+
+
+
+
+
+

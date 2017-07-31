@@ -239,14 +239,14 @@ class Add_Student(wx.Dialog):
         return 1
     def OnClose(self,event):
         self.Parent.Enabled=True
-        print "closin"
+        #print "closin"
         
         event.Skip()
         
     def run(self):
         self.Show()
         
-        print "run"
+        #print "run"
 
 
 
@@ -343,7 +343,7 @@ class MyGridForm(wx.Frame):
         #self.Maximize(True)
     def OnKey(self,event):
         if event.ControlDown() and event.GetKeyCode() == 67:
-            print "Ctrl+C"
+            print ("Ctrl+C")
             
         
     def SetMenu(self):
@@ -573,7 +573,7 @@ class MyGridForm(wx.Frame):
         
     def OnMenu_Exit(self,event):
         
-        print "grid closs"
+        #print "grid closs"
         
         self.Close()
         event.Skip()

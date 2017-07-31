@@ -1,7 +1,7 @@
 from Crypto.Cipher import AES
 import base64
 import os
- 
+import hashlib
 
 class my_encryption():
     def __init__(self):
@@ -27,4 +27,10 @@ class my_encryption():
         decoded = self.DecodeAES(self.cipher, text)
         
         return decoded
+    
+    def Encrypt_Password(self,password):
+        
+        # This is one way encryption
+        encrypted_pass = hashlib.sha1(password.encode('utf-8')).hexdigest()
+        return encrypted_pass
         

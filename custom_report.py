@@ -7,7 +7,7 @@ import subprocess
 class custom_report(wx.Dialog):
     def __init__(self, *args, **kwds):
         # begin wxGlade: consolidated_report.__init__
-        kwds["style"] = wx.CAPTION | wx.CLOSE_BOX | wx.MINIMIZE_BOX | wx.STAY_ON_TOP
+        kwds["style"] = wx.CAPTION | wx.CLOSE_BOX | wx.MINIMIZE_BOX  | wx.FRAME_FLOAT_ON_PARENT 
         wx.Dialog.__init__(self, *args, **kwds)
         self.panel_1 = wx.Panel(self, -1)
         self.combo_box_1 = wx.ComboBox(self.panel_1, -1, choices=[], style=wx.CB_DROPDOWN | wx.CB_SIMPLE | wx.CB_DROPDOWN | wx.CB_READONLY)

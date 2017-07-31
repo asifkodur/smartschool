@@ -5,6 +5,7 @@
 import wx
 from dboperations import db_operations
 
+import THEME
 # begin wxGlade: extracode
 # end wxGlade
 
@@ -12,13 +13,13 @@ from dboperations import db_operations
 class delete_student(wx.Dialog):
     def __init__(self, *args, **kwds):
         # begin wxGlade: delete.__init__
-        kwds["style"] = wx.CAPTION | wx.CLOSE_BOX | wx.MINIMIZE_BOX | wx.SYSTEM_MENU | wx.TAB_TRAVERSAL | wx.CLIP_CHILDREN
+        kwds["style"] = wx.MAXIMIZE | wx.CLOSE_BOX | wx.THICK_FRAME|wx.CAPTION
         wx.Dialog.__init__(self, *args, **kwds)
         self.panel_2 = wx.ScrolledWindow(self, -1, style=wx.TAB_TRAVERSAL)
         self.label_1 = wx.StaticText(self.panel_2, -1, "Specify Class")
-        self.combo_box_1 = wx.ComboBox(self.panel_2, -1, choices=[], style=wx.CB_DROPDOWN)
-        self.combo_box_2 = wx.ComboBox(self.panel_2, -1, choices=["Select Standard", "8", "9", "10"], style=wx.CB_DROPDOWN)
-        self.combo_box_3 = wx.ComboBox(self.panel_2, -1, choices=['Select Division'], style=wx.CB_DROPDOWN)
+        self.combo_box_1 = wx.ComboBox(self.panel_2, -1, choices=[], style=wx.CB_DROPDOWN | wx.CB_READONLY )
+        self.combo_box_2 = wx.ComboBox(self.panel_2, -1, choices=["Select Standard", "8", "9", "10"], style=wx.CB_DROPDOWN | wx.CB_READONLY )
+        self.combo_box_3 = wx.ComboBox(self.panel_2, -1, choices=['Select Division'], style=wx.CB_DROPDOWN | wx.CB_READONLY )
         self.static_line_2 = wx.StaticLine(self.panel_2, -1)
         self.panel_1 = wx.Panel(self.panel_2, -1)
         
@@ -46,13 +47,29 @@ class delete_student(wx.Dialog):
     def __set_properties(self):
         # begin wxGlade: delete.__set_properties
         self.SetTitle("Delete Students")
+        
+        
+        self.SetBackgroundColour(THEME.WINDOW_BG_COLOR)
+        self.panel_1.SetBackgroundColour(THEME.WINDOW_BG_COLOR)
+        self.panel_2.SetBackgroundColour(THEME.WINDOW_BG_COLOR)
+        self.button_close.SetBackgroundColour(THEME.BUTTON_BG_COLOR)
+        self.button_close.SetForegroundColour(THEME.BUTTON_FG_COLOR)        
+        self.button_proceed.SetBackgroundColour(THEME.BUTTON_BG_COLOR)
+        self.button_proceed.SetForegroundColour(THEME.BUTTON_FG_COLOR)
+        #self.panel_2.SetForegroundColour(theme.BUTTON_BG_COLOR)
+        
         self.SetSize((749, 710))
         self.label_1.SetFont(wx.Font(12, wx.DEFAULT, wx.ITALIC, wx.BOLD, 1, ""))
         self.check_list_box_1.SetFont(wx.Font(11, wx.DEFAULT, wx.NORMAL, wx.BOLD, 0, ""))
 
         self.static_line_2.SetMinSize((678, 5))
-        self.button_close.SetMinSize((85, 33))
-        self.button_proceed.SetMinSize((85, 33))
+        self.button_close.SetMinSize(THEME.BUTTON_SIZE_NORMAL)
+        self.button_proceed.SetMinSize(THEME.BUTTON_SIZE_NORMAL)
+        self.combo_box_1.SetMinSize(THEME.COMBO_SIZE_NORMAL)
+        self.combo_box_2.SetMinSize(THEME.COMBO_SIZE_NORMAL)
+        self.combo_box_3.SetMinSize(THEME.COMBO_SIZE_NORMAL)
+        
+        
         self.panel_2.SetScrollRate(10, 10)
         
         self.combo_box_1.SetSelection(0)
@@ -93,9 +110,10 @@ class delete_student(wx.Dialog):
         self.panel_1.SetSizer(sizer_7)
         sizer_1.Add(self.panel_1, 1, wx.EXPAND, 0)
         sizer_2.Add(sizer_1, 1, wx.EXPAND, 0)
-        sizer_6.Add(self.button_close, 0, wx.LEFT, 250)
+        sizer_6.Add(self.button_close, 0, wx.LEFT, 50)
         sizer_6.Add(self.button_proceed, 0, wx.LEFT, 50)
-        sizer_2.Add(sizer_6, 0, wx.EXPAND, 0)
+        #sizer_2.Add(sizer_6, 0, wx.EXPAND, 0)
+        sizer_2.Add(sizer_6, 0, wx.ALIGN_CENTER_HORIZONTAL | wx.ALIGN_CENTER_VERTICAL, 0)
         self.panel_2.SetSizer(sizer_2)
         sizer_3.Add(self.panel_2, 1, wx.ALL | wx.EXPAND, 20)
         self.SetSizer(sizer_3)
@@ -205,7 +223,7 @@ class delete_student(wx.Dialog):
             self.button_proceed.Enable(True)
         else:
             self.button_proceed.Enable(False)
-        print self.checkedItems
+        
             
     def on_close(self, event):  # wxGlade: promote.<event_handler>
         self.Close()

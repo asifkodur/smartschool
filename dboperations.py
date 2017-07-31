@@ -219,6 +219,7 @@ class db_operations():
         self.cur.execute(query,(code,))
         self.con.commit()
     def Get_School_Email(self):
+        # This may be different from the email used to communicate with parents
         query="SELECT EMAIL FROM institution"
         self.cur.execute(query)
         result=self.cur.fetchone()
@@ -227,6 +228,7 @@ class db_operations():
         else:
             return ""
     def Set_School_Email(self,email):
+        # This may be different from the email used to communicate with parents
         query="UPDATE institution SET EMAIL=?"
         self.cur.execute(query,(email,))
         self.con.commit()
@@ -254,7 +256,18 @@ class db_operations():
         query="UPDATE institution SET CONTACT=?"
         self.cur.execute(query,(contact,))
         self.con.commit()
-        
+    def Get_Staff_Info(self):
+        #return a list of NAME, DESIG,MOBILE,EMAIL
+        query="SELECT * FROM STAFF"
+        self.cur.execute(query)
+        result=self.cur.fetchall()
+        if result:
+            mylist=[]
+            for each in result:
+                mylist.append([each[1],each[2],each[3],each[4]])
+            return mylist
+        else:
+            return []
     def Get_Working_Days(self,year,term):
         term='TERM'+str(term)
         query="SELECT  "+term +" FROM working_days WHERE YEAR=?"
@@ -318,7 +331,7 @@ class db_operations():
         
         query="SELECT ID FROM STUDENT WHERE ADMISSION_NO=" + str(admission_no)   
             
-            
+    
 
         self.cur.execute(query)
 
@@ -338,7 +351,17 @@ class db_operations():
                 my_list.append([each]+list(info))
         return my_list
         
+    def Get_Father(self,ad_no):
+        query="SELECT FATHER FROM STUDENT WHERE ADMISSION_NO=?"
         
+        self.cur.execute(query,(ad_no,))
+
+        
+        result=self.cur.fetchone()
+        
+        if result:
+            return result[0]
+        return ''
     def Score_and_Roll(self,term,div_id,subject_index,student_id="All"): # Returns name, adno,roll,the score and roll no of one or all students
         
         # Gathrs info from T1,T2 ot T3 and Returns a tuple
@@ -450,6 +473,23 @@ class db_operations():
         else:
             return "",""
         
+    def Get_Mobile(self,ad_no):
+        query="SELECT PHONE FROM STUDENT WHERE ADMISSION_NO=?"
+        self.cur.execute(query,(ad_no,))
+        result=self.cur.fetchone()
+        if result:
+            return result[0]
+        else:
+            return ''
+        
+    def Get_Email(self,ad_no):# Email of Students
+        query="SELECT EMAIL FROM STUDENT WHERE ADMISSION_NO=?"
+        self.cur.execute(query,(ad_no,))
+        result=self.cur.fetchone()
+        if result:
+            return result[0]
+        else:
+            return ''
     
     def Get_Class_Strength(self,year,clas,div):
         div_id=self.Get_Div_Id(year,clas,div)
@@ -533,6 +573,115 @@ class db_operations():
             
             list.append(str(each)+"-"+str(int(str(each)[2:])+1))
         return list
+    def Get_SMS_Password(self):
+        query="SELECT SMS_PASSWORD FROM SMS_EMAIL"
+        self.cur.execute(query)
+        result=self.cur.fetchone()
+        if result:
+            return result[0]
+        return ''
+    def Set_SMS_Password(self,passwd):
+        E=my_encryption()
+        passwd=E.Encrypt_Password(passwd)
+        query="UPDATE SMS_EMAIL SET SMS_PASSWORD=?"
+        self.cur.execute(query,(passwd,))
+        self.con.commit()
+    def Get_SMS_Key(self):
+        E=my_encryption()
+        query="SELECT SMS_KEY FROM SMS_EMAIL"
+        self.cur.execute(query)
+        result=self.cur.fetchone()
+        if result:
+            
+            return E.decrypt(result[0])
+        
+        return ''
+    def Set_SMS_Key(self,passwd):
+        E=my_encryption()
+        passwd=E.encrypt(passwd)
+        query="UPDATE SMS_EMAIL SET SMS_KEY=?"
+        self.cur.execute(query,(passwd,))
+        self.con.commit()
+    def Get_SMS_ID(self):
+        query="SELECT SMS_ID FROM SMS_EMAIL"
+        self.cur.execute(query)
+        result=self.cur.fetchone()
+        if result:
+            return result[0]
+        return ''
+    def Set_SMS_ID(self,id):
+        query="UPDATE SMS_EMAIL SET SMS_ID=?"
+        self.cur.execute(query,(id,))
+        self.con.commit()
+    def Is_SMS_Enabled(self):
+        query="SELECT SMS_ENABLED FROM SMS_EMAIL"
+        self.cur.execute(query)
+        result=self.cur.fetchone()
+        if result:
+            return result[0]
+                
+        return True
+    def Is_SMS_Protected(self):
+        query="SELECT SMS_PROTECTION FROM SMS_EMAIL"
+        self.cur.execute(query)
+        result=self.cur.fetchone()
+        if result:
+            return result[0]
+                
+        return True
+    def Enable_Protection(self):
+        query="UPDATE SMS_EMAIL SET SMS_PROTECTION='Y'"
+        self.cur.execute(query)
+        self.con.commit()
+    def Disable_Protection(self):
+        query="UPDATE SMS_EMAIL SET SMS_PROTECTION='N'"
+        self.cur.execute(query)
+        self.con.commit()
+    def Enable_SMS(self):
+        query="UPDATE SMS_EMAIL SET SMS_ENABLED='Y'"
+        self.cur.execute(query)
+        self.con.commit()
+    def Disable_SMS(self):
+        query="UPDATE SMS_EMAIL SET SMS_ENABLED='N'"
+        self.cur.execute(query)
+        self.con.commit()
+        
+    def Get_SMS_Sender_Mail(self):
+        # This is thee email for sending msg to parents maintained in SMS_EMAIL table
+        query="SELECT EMAIL FROM SMS_EMAIL"
+        E=my_encryption()
+        self.cur.execute(query)
+        result=self.cur.fetchone()
+        
+        if result:
+            return E.decrypt(result[0])
+        else:
+            return ''
+    def Set_SMS_Sender_Mail(self,email):
+        # This is thee email for sending msg to parents maintained in SMS_EMAIL table
+        E=my_encryption()
+        email=E.encrypt(email)
+        query="UPDATE SMS_EMAIL SET EMAIL=?"
+        self.cur.execute(query,(email,))
+        self.con.commit()
+    def Get_SMS_Sender_Mail_Password(self):
+        # This is thee email for sending msg to parents maintained in SMS_EMAIL table
+        query="SELECT EMAIL_PASSWORD FROM SMS_EMAIL"
+        E=my_encryption()
+        self.cur.execute(query)
+        result=self.cur.fetchone()
+        if result:
+            return E.decrypt(result[0])
+        else:
+            return ''
+    def Set_SMS_Sender_Mail_Password(self,passwd):
+        # This is thee email for sending msg to parents maintained in SMS_EMAIL table
+        E=my_encryption()
+        passwd=E.encrypt(passwd)
+        query="UPDATE SMS_EMAIL SET EMAIL_PASSWORD=?"
+        self.cur.execute(query,(passwd,))
+        self.con.commit()
+        
     def Add_Div(self,year,class_,div):
         query="INSERT INTO DIV (YEAR,CLASS,DIV) VALUES(?,?,?)"
         self.cur.execute(query,(year,class_,div))
@@ -727,7 +876,7 @@ class db_operations():
 
         class_=student_details[1]
         div=student_details[2]
-        ad_no=student_details[3]        
+        new_ad_no=student_details[3]        
         name=student_details[4]
         uid=student_details[5]
         gender=student_details[6]
@@ -742,11 +891,11 @@ class db_operations():
         email=student_details[15]
         roll=student_details[16]
         if previous_ad_no:
-            
             student_id=self.Get_Student_Id_By_Admission_No(previous_ad_no)
         else:
-            student_id=self.Get_Student_Id_By_Admission_No(ad_no)
-        self.Execute(query,(ad_no,name,uid,gender,dob,category,religion,caste,lang,father,mother,phone,email,ad_no))
+            student_id=self.Get_Student_Id_By_Admission_No(new_ad_no)
+            previous_ad_no=new_ad_no
+        self.Execute(query,(new_ad_no,name,uid,gender,dob,category,religion,caste,lang,father,mother,phone,email,previous_ad_no))
 
         #print query
         

@@ -4,6 +4,7 @@ from lib import gate
 from dboperations import db_operations
 
 import hashlib
+from encryption import my_encryption
 
 
 
@@ -15,6 +16,7 @@ class user_operations():
         self.parent=parent
         self.Secret_Key="You cannot bypass this, lol"
         self.DB=db_operations()
+        self.EN=my_encryption()
         #self.DB.con.create_function('encrypt', 1, self.Encrypt_Password)# Custom pyfunction to sql
         #self.DB.con.create_function('encrypt', 1, self.Encrypt_Password)# Custom pyfunction to sql
     
@@ -22,7 +24,8 @@ class user_operations():
     def Login_Check(self,user,password):
         
         print "login check"
-        passw=self.Encrypt_Password(self.Secret_Key+password)
+        
+        passw=self.EN.Encrypt_Password(self.Secret_Key+password)
         query="SELECT PASSWORD FROM USER WHERE USER='%s' AND PASSWORD='%s'" %(user,passw)  
         #self.DB.cur.execute(query,(user,self.Secret_Key+password,))
         self.DB.cur.execute(query)
@@ -33,7 +36,7 @@ class user_operations():
         
         if row:
             
-            print "Success"
+            
             return True
         else:
             dlg = wx.MessageDialog(self.parent, 'Incorrect Password', '',wx.OK | wx.ICON_INFORMATION)                  
@@ -43,15 +46,13 @@ class user_operations():
             return False
     def ChangePassword(self,username,password):
         
-        query="UPDATE USER SET PASSWORD=encrypt(?) WHERE USER=?"
+        query="UPDATE USER SET PASSWORD=? WHERE USER=?"
         
-        self.DB.cur.execute(query,(self.Secret_Key+password,username))
+        passw=self.EN.Encrypt_Password(self.Secret_Key+password)
+        self.DB.cur.execute(query,(passw,username))
         self.DB.con.commit()
-    def Encrypt_Password(self,password):
-        
-        # Do not use this algorithm in a real environment
-        encrypted_pass = hashlib.sha1(password.encode('utf-8')).hexdigest()
-        return encrypted_pass
+    
+    
  
 class win_chng_pass(wx.Dialog):
     def __init__(self, *args, **kwds):

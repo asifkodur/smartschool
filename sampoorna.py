@@ -37,13 +37,13 @@ class sampoorna_reports():
         link=xml[newpos2+1:newpos3]   
         
         
-        link="http://sampoorna.itschool.gov.in"+link
+        link="https://sampoorna.itschool.gov.in"+link
         return link
 
     def get_report_index_page(self):# old get_xml
 
         # this function loads the sampoorna page that shows the list of all the custom reports
-        url='http://sampoorna.itschool.gov.in/'+self.school_code+'/reports/index/student'
+        url='https://sampoorna.itschool.gov.in/'+self.school_code+'/reports/index/student'
 
         result = self.session_request.get(url)
 
@@ -100,7 +100,7 @@ class sampoorna_reports():
         
         
         # before creating new report name check if rportpage if the name is unique, if not delete that report
-        url='http://sampoorna.itschool.gov.in/'+self.school_code+'/reports/generate/student'
+        url='https://sampoorna.itschool.gov.in/'+self.school_code+'/reports/generate/student'
         headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36'}
         
         report_field='course'
@@ -252,7 +252,7 @@ class sampoorna_reports():
         
         
 
-        url="http://sampoorna.itschool.gov.in/"
+        url="https://sampoorna.itschool.gov.in/"
         headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36'}
         
 

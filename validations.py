@@ -25,11 +25,15 @@ class validate():
         
     def validate_mobile(self,mobile):
         if not mobile:# Mobile not manadtory
+            
             return [True]
         if not mobile.isdigit():
+            
             return False,"Invalid Mobile Number"
         if len(mobile)!=10:
+            
             return False, "Mobile Number Must Contain Exactly 10 digits or it can be empty"
+        
         return [True]
         
     def validate_email(self,email):
@@ -40,7 +44,7 @@ class validate():
 
 
         if match == None:
-            print('Bad Syntax')
+           
             #raise ValueError('Bad Syntax')
             return False,"Invalid email. The filed can be empty"
         return [True]
@@ -73,4 +77,3 @@ class validate():
         
         return [True]
 
-#print V.validate_mobile('12')

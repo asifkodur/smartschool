@@ -24,7 +24,7 @@ class About(wx.Frame):
 
         info = wx.AboutDialogInfo()
         path=cur_dir+'/Resources/img/me.jpg'
-        print path
+        
         if os.path.exists(path):
             
             info.SetIcon(wx.Icon(path, wx.BITMAP_TYPE_JPEG))

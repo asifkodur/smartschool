@@ -601,7 +601,7 @@ class admin_dash_b(wx.Frame):
         passw=win_chng_pass(self)
         passw.ShowModal()
         self.label_password.SetForegroundColour(self.label_fg_color)
-        self.passw.Destroy()
+        passw.Destroy()
         event.Skip()
     def on_help(self,event):
         subprocess.call(["xdg-open",dir+'/Resources/help.html'])
@@ -702,7 +702,8 @@ class admin_dash_b(wx.Frame):
         self.button_promo.SetCursor(hand_cursor)
         self.button_remove.SetCursor(hand_cursor)
         self.button_promote.SetCursor(hand_cursor)
-        
+        self.button_sampoorna.SetCursor(hand_cursor)
+        self.button_profile.SetCursor(hand_cursor)
         self.button_import_db.SetCursor(hand_cursor)
         self.button_import_excel.SetCursor(hand_cursor)
         self.button_export.SetCursor(hand_cursor)
@@ -794,7 +795,7 @@ class admin_dash_b(wx.Frame):
         event.Skip()
 # end of class admin_dash
 
-'''
+
 
 if __name__ == "__main__":
     gettext.install("app") # replace with the appropriate catalog name
@@ -805,4 +806,3 @@ if __name__ == "__main__":
     app.SetTopWindow(main_frame)
     main_frame.Show()
     app.MainLoop()
-'''

@@ -71,10 +71,12 @@ class student_profile(wx.Dialog):
         self.button_close = wx.Button(self.panel_1, wx.ID_ANY, ("&Close"))
         self.button_delete = wx.Button(self.panel_1, wx.ID_ANY, ("&Delete"))
         self.button_save = wx.Button(self.panel_1, wx.ID_SAVE, "Edit")
-
+        
         self.__set_properties()
         self.__do_layout()
 
+        
+        
         self.Bind(wx.EVT_COMBOBOX, self.on_year, self.combo_box_year)
         self.Bind(wx.EVT_COMBOBOX, self.on_class, self.combo_box_class)
         self.Bind(wx.EVT_COMBOBOX, self.on_div, self.combo_box_div)
@@ -111,12 +113,16 @@ class student_profile(wx.Dialog):
         self.Bind(wx.EVT_BUTTON, self.on_close, self.button_close)
         self.Bind(wx.EVT_BUTTON, self.on_delete, self.button_delete)
         self.Bind(wx.EVT_BUTTON, self.on_save, self.button_save)
+        
+        
+ 
         # end wxGlade
         
         self.YEAR=''
         self.current_id=0
         self.current_admission_no=''
         self.path=''
+        self.prof_pic_path=''
         
 
         self.DB=db_operations()
@@ -325,13 +331,14 @@ class student_profile(wx.Dialog):
         self.set_editable(False)
         #self.bitmap_photo.Enable(True)
         self.Bind(wx.EVT_BUTTON, self.on_photo, self.bitmap_photo)
-        self.combo_box_adno.SetSelection(0)
+        #self.combo_box_adno.SetSelection(0)
 
 
 
 
         event.Skip()
     def reset_photo(self,default=False):
+        
         print "changing photo"
         cur_dir=os.path.dirname(os.path.abspath((sys.argv[0])))
 
@@ -355,12 +362,18 @@ class student_profile(wx.Dialog):
             self.bitmap_photo = wx.BitmapButton(self.panel_1, wx.ID_ANY,wx.Bitmap(path, wx.BITMAP_TYPE_ANY))
 
             #self.bitmap_photo.SetBitmapSelected( wx.Bitmap(path, wx.BITMAP_TYPE_ANY))
+            selected_index=0
+            print self.combo_box_adno.GetSelection()
+            if self.combo_box_adno.GetSelection()>0:
+                selected_index=self.combo_box_adno.GetItems().index(self.current_admission_no)
             self.__set_properties()
             self.__do_layout()
+            self.combo_box_adno.SetSelection(selected_index)
+            self.bitmap_photo.Enable(True)
             self.path=path
     def on_photo(self, event):  # wxGlade: student_profie.<event_handler>
         #wcd="Image Files(*.jpeg)|*.jpeg| JPG Files(*.jpg)|*.jpg| PNG Files(*.png)|*.png"
-        return 0
+        #return 0
         print "on photo"
         wcd="Image Files(*.jpeg,*.jpg,*.png)|*.jpeg;*.jpg;*.png"
         dir = "/home"
@@ -370,14 +383,17 @@ class student_profile(wx.Dialog):
             
             result=self.VALID.validate_photo(path)
             if result[0]:
-                from shutil import copyfile
-                cur_dir=os.path.dirname(os.path.abspath((sys.argv[0])))
                 
-                dest=cur_dir+"/Resources/profile_pic/"+str(self.current_admission_no)+".jpg"
-
-                copyfile(path,dest)
+                self.bitmap_photo = wx.BitmapButton(self.panel_1, wx.ID_ANY,wx.Bitmap(path, wx.BITMAP_TYPE_ANY))
+                self.__set_properties()
+                self.__do_layout()
+                self.button_save.Enable(True)
+                self.prof_pic_path=path
+                
+                
                 open_dlg.Destroy
-                #self.reset_photo(True)
+                self.combo_box_adno.SetValue(str(self.current_admission_no))
+                
                 
             else:
                 open_dlg.Destroy
@@ -422,6 +438,19 @@ class student_profile(wx.Dialog):
         self.db_delete()
         self.clear_student_details()
         self.bitmap_photo.Enable(False)
+        cur_dir=os.path.dirname(os.path.abspath((sys.argv[0])))
+        path=cur_dir+"/Resources/profile_pic/"+str(self.current_admission_no)+".jpg"
+        if os.path.isfile(path):
+            path=cur_dir+"/Resources/profile_pic/"+str(self.current_admission_no)+".jpg"
+        
+            os.remove(path)
+            path=cur_dir+"/Resources/img/browse.jpg"
+            self.bitmap_photo = wx.BitmapButton(self.panel_1, wx.ID_ANY,wx.Bitmap(path, wx.BITMAP_TYPE_ANY))
+            self.__set_properties()
+            self.__do_layout()
+
+
+        
         event.Skip()
 
     def on_save(self, event):  # wxGlade: student_profie.<event_handler>
@@ -447,18 +476,34 @@ class student_profile(wx.Dialog):
                 else:
                     result=self.db_update()
                 if result:
+                    if self.prof_pic_path!='':
+                        from shutil import copyfile
+                        cur_dir=os.path.dirname(os.path.abspath((sys.argv[0])))
+                        
+                        dest=cur_dir+"/Resources/profile_pic/"+str(self.current_admission_no)+".jpg"
+
+                        copyfile(self.prof_pic_path,dest)
+               
                     self.load_admission_no()
                     self.button_save.Disable()
             else:
-                msg= "admission and name mandatory"
+                msg= "Admission number and name mandatory"
                 
-                Diadlg = wx.MessageDialog(self, msg, '',wx.OK | wx.ICON_ERROR)                  
+                dlg = wx.MessageDialog(self, msg, '',wx.OK | wx.ICON_ERROR)                  
                 dlg.ShowModal()
                 dlg.Destroy()
                 
             self.button_save.Label="Edit"
             self.set_editable(False)
             self.bitmap_photo.Enable(False)
+            
+            cur_dir=os.path.dirname(os.path.abspath((sys.argv[0])))
+            path=cur_dir+"/Resources/img/browse.jpg"
+            self.bitmap_photo = wx.BitmapButton(self.panel_1, wx.ID_ANY,wx.Bitmap(path, wx.BITMAP_TYPE_ANY))
+            self.__set_properties()
+            self.__do_layout()
+
+            
 
 
         event.Skip()
@@ -474,12 +519,9 @@ class student_profile(wx.Dialog):
     def load_year(self):
         self.combo_box_year.Clear()
         self.combo_box_div.Clear()
-        
-        
         years=self.DB.get_academic_year_list()
         years.insert(0,"Select Year")
 
-        
         
         for item in years:
             self.combo_box_year.Append(str(item))
@@ -517,6 +559,7 @@ class student_profile(wx.Dialog):
             
             self.combo_box_adno.Append(each[1])
             
+        print "setting selectio"
         self.combo_box_adno.SetSelection(0) 
         
     def clear_student_details(self):
@@ -537,7 +580,7 @@ class student_profile(wx.Dialog):
         self.text_ctrl_mobile.Value=''
         self.text_ctrl_email.Value=''
         
-        self.combo_box_adno.Value=''
+        #self.combo_box_adno.Value=''
         self.combo_box_gender.Value=''
         
         
@@ -547,23 +590,23 @@ class student_profile(wx.Dialog):
         if self.current_admission_no!="Select Student":
             self.STUDENT_DETAILS= self.DB.Get_Profile(self.current_admission_no)
             
-            self.text_ctrl_name.Value=self.STUDENT_DETAILS[0]
+            self.text_ctrl_name.Value=str(self.STUDENT_DETAILS[0])
             #print self.LIST
-            self.text_ctrl_uid.Value=self.STUDENT_DETAILS[1]
+            self.text_ctrl_uid.Value=str(self.STUDENT_DETAILS[1])
             self.combo_box_gender.Clear()
-            self.combo_box_gender.Append(self.STUDENT_DETAILS[2])
+            self.combo_box_gender.Append(str(self.STUDENT_DETAILS[2]))
             self.combo_box_gender.SetSelection(0)
-            self.text_ctrl_dob.Value=self.STUDENT_DETAILS[3]
-            self.text_ctrl_category.Value=self.STUDENT_DETAILS[4]
-            self.text_ctrl_religion.Value=self.STUDENT_DETAILS[5]
-            self.text_ctrl_caste.Value=self.STUDENT_DETAILS[6]
-            self.text_ctrl_language.Value=self.STUDENT_DETAILS[7]
-            self.text_ctrl_father.Value=self.STUDENT_DETAILS[8]
-            self.text_ctrl_mother.Value=self.STUDENT_DETAILS[9]
-            self.text_ctrl_mobile.Value=self.STUDENT_DETAILS[10]
-            self.text_ctrl_email.Value=self.STUDENT_DETAILS[11]
+            self.text_ctrl_dob.Value=str(self.STUDENT_DETAILS[3])
+            self.text_ctrl_category.Value=str(self.STUDENT_DETAILS[4])
+            self.text_ctrl_religion.Value=str(self.STUDENT_DETAILS[5])
+            self.text_ctrl_caste.Value=str(self.STUDENT_DETAILS[6])
+            self.text_ctrl_language.Value=str(self.STUDENT_DETAILS[7])
+            self.text_ctrl_father.Value=str(self.STUDENT_DETAILS[8])
+            self.text_ctrl_mother.Value=str(self.STUDENT_DETAILS[9])
+            self.text_ctrl_mobile.Value=str(self.STUDENT_DETAILS[10])
+            self.text_ctrl_email.Value=str(self.STUDENT_DETAILS[11])
             self.text_ctrl_roll.Value=str(self.STUDENT_DETAILS[12])
-            #self.reset_photo()
+            self.reset_photo()
                    
             
         if (self.text_ctrl_name) and (self.current_admission_no!="Select Student"):
@@ -588,6 +631,7 @@ class student_profile(wx.Dialog):
             self.combo_box_gender.Append("M")
             self.combo_box_gender.Append("N")
             gender=self.combo_box_gender.Value
+            self.bitmap_photo.Enable(True)
             
         else:
             
@@ -595,6 +639,7 @@ class student_profile(wx.Dialog):
             self.combo_box_gender.Clear()
             self.combo_box_gender.Append(gender)
             self.combo_box_gender.SetSelection(0)
+            self.bitmap_photo.Enable(False)
 
             
         if option:
@@ -627,6 +672,7 @@ class student_profile(wx.Dialog):
         flag=False
         previous_ad_no=0
         if self.current_admission_no!=mylist[3]: # checking if updating ad no
+            
             result=self.DB.Admission_Exists(mylist[3])
             previous_ad_no=self.current_admission_no
 
@@ -636,12 +682,16 @@ class student_profile(wx.Dialog):
                 dlg = wx.MessageDialog(self, msg, '',wx.OK | wx.ICON_ERROR)                  
                 dlg.ShowModal()
                 dlg.Destroy()
+            else:
+                #previous_ad_no=mylist[3]
+                pass
 
                 
         if not flag:
             
             #try:
-            self.DB.Update_Student_Full(self.YEAR,mylist,previous_ad_no)
+            
+            self.DB.Update_Student_Full(self.YEAR,mylist,previous_ad_no,commit=True)
             msg="Successfully Saved"
             icon=wx.ICON_INFORMATION
             '''except:

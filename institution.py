@@ -12,21 +12,21 @@ from dboperations import db_operations
 class Institution(wx.Frame):
     def __init__(self, *args, **kwds):
         # begin wxGlade: Institution.__init__
-        kwds["style"] = wx.CAPTION | wx.CLOSE_BOX | wx.MINIMIZE_BOX | wx.STAY_ON_TOP | wx.FRAME_FLOAT_ON_PARENT | wx.TAB_TRAVERSAL
+        kwds["style"] = wx.CAPTION | wx.MAXIMIZE|wx.CLOSE_BOX | wx.MINIMIZE_BOX | wx.STAY_ON_TOP# | wx.FRAME_FLOAT_ON_PARENT | wx.TAB_TRAVERSAL
         wx.Frame.__init__(self, *args, **kwds)
         self.label_1 = wx.StaticText(self, -1, "Institution Settings")
         self.label_2 = wx.StaticText(self, -1, "School Name")
-        self.text_ctrl_5 = wx.TextCtrl(self, -1, "",style=wx.TE_READONLY)#wx.StaticText(self, -1, "")
+        self.text_ctrl_5 = wx.TextCtrl(self, -1, "")#,style=wx.TE_READONLY)#wx.StaticText(self, -1, "")
         self.label_4 = wx.StaticText(self, -1, "School Code")
-        self.text_ctrl_6 = wx.TextCtrl(self, -1, "",style=wx.TE_READONLY)#wx.StaticText(self, -1, "")
+        self.text_ctrl_6 = wx.TextCtrl(self, -1, "")#,style=wx.TE_READONLY)#wx.StaticText(self, -1, "")
         self.label_6 = wx.StaticText(self, -1, "E-Mail")
-        self.text_ctrl_1 = wx.TextCtrl(self, -1, "", style=wx.TE_PROCESS_ENTER | wx.TE_PROCESS_TAB)
-        self.label_7 = wx.StaticText(self, -1, "Contact")
-        self.text_ctrl_2 = wx.TextCtrl(self, -1, "", style=wx.TE_PROCESS_ENTER | wx.TE_PROCESS_TAB)
+        self.text_ctrl_1 = wx.TextCtrl(self, -1, "")#, style=wx.TE_PROCESS_ENTER | wx.TE_PROCESS_TAB)
+        self.label_7 = wx.StaticText(self, -1, "Phone")
+        self.text_ctrl_2 = wx.TextCtrl(self, -1, "")#, style=wx.TE_PROCESS_ENTER | wx.TE_PROCESS_TAB)
         self.label_8 = wx.StaticText(self, -1, "Place")
-        self.text_ctrl_3 = wx.TextCtrl(self, -1, "", style=wx.TE_PROCESS_ENTER | wx.TE_PROCESS_TAB)
+        self.text_ctrl_3 = wx.TextCtrl(self, -1, "")#, style=wx.TE_PROCESS_ENTER | wx.TE_PROCESS_TAB)
         self.button_1 = wx.Button(self, -1, "Cancel")
-        self.button_2 = wx.Button(self, -1, "OK")
+        self.button_2 = wx.Button(self, -1, "Save")
         
         self.DB=db_operations()
         
@@ -46,6 +46,7 @@ class Institution(wx.Frame):
 
     def __set_properties(self):
         # begin wxGlade: Institution.__set_properties
+        self.SetBackgroundColour(wx.Colour(47, 47, 47))
         self.SetTitle("Institution")
         self.SetSize((550, 303))
         self.SetFocus()
@@ -64,6 +65,19 @@ class Institution(wx.Frame):
         self.text_ctrl_3.SetMinSize((250, 27))
         self.button_1.SetMinSize((80, 33))
         self.button_2.SetMinSize((80, 33))
+        
+        
+        self.button_1.SetBackgroundColour(wx.Colour(33, 137, 33))
+        self.button_1.SetForegroundColour(wx.Colour(255, 255, 255))
+        self.button_2.SetBackgroundColour(wx.Colour(33, 137, 33))
+        self.button_2.SetForegroundColour(wx.Colour(255, 255, 255))
+        
+        self.label_1.SetForegroundColour(wx.Colour(255, 255, 255))
+        self.label_2.SetForegroundColour(wx.Colour(255, 255, 255))
+        self.label_4.SetForegroundColour(wx.Colour(255, 255, 255))
+        self.label_6.SetForegroundColour(wx.Colour(255, 255, 255))
+        self.label_7.SetForegroundColour(wx.Colour(255, 255, 255))
+        self.label_8.SetForegroundColour(wx.Colour(255, 255, 255))
         # end wxGlade
 
     def __do_layout(self):
@@ -107,7 +121,7 @@ class Institution(wx.Frame):
         
     def OnOk(self, event):  # wxGlade: Institution.<event_handler>
         
-        if self.text_ctrl_1.Value=='admin' and self.text_ctrl_2.Value=='admin':
+        '''if self.text_ctrl_1.Value=='admin' and self.text_ctrl_2.Value=='admin':
             
             
             self.DB.Set_School_Name(self.text_ctrl_3.Value)      
@@ -115,18 +129,23 @@ class Institution(wx.Frame):
                
         elif  self.text_ctrl_1.Value=='theadmin' and self.text_ctrl_2.Value=='theadmin':
            self.DB.Set_School_Code(self.text_ctrl_3.Value)   
+        
         else:
-            try:
-                self.DB.Set_School_Email(self.text_ctrl_1.Value)       
-                self.DB.Set_School_Contact(self.text_ctrl_2.Value)
-                self.DB.Set_School_Place(self.text_ctrl_3.Value)
-                dlg = wx.MessageDialog(self, 'Successfully Saved', '',wx.OK | wx.ICON_INFORMATION)
-                dlg.ShowModal()
-                dlg.Destroy()
-            except:
-                dlg = wx.MessageDialog(self, 'Could not save some values', '',wx.OK | wx.ICON_ERROR)
-                dlg.ShowModal()
-                dlg.Destroy()
+        '''
+        try:
+            self.DB.Set_School_Name(self.text_ctrl_5.Value) 
+            self.DB.Set_School_Code(self.text_ctrl_6.Value)   
+ 
+            self.DB.Set_School_Email(self.text_ctrl_1.Value)       
+            self.DB.Set_School_Contact(self.text_ctrl_2.Value)
+            self.DB.Set_School_DEO(self.text_ctrl_3.Value)
+            dlg = wx.MessageDialog(self, 'Successfully Saved', '',wx.OK | wx.ICON_INFORMATION)
+            dlg.ShowModal()
+            dlg.Destroy()
+        except:
+            dlg = wx.MessageDialog(self, 'Could not save some values', '',wx.OK | wx.ICON_ERROR)
+            dlg.ShowModal()
+            dlg.Destroy()
                 
                 
             
@@ -140,12 +159,12 @@ class Institution(wx.Frame):
         code=self.DB.Get_School_Code()
         self.text_ctrl_6.Value=code
         email=self.DB.Get_School_Email()
-        place=self.DB.Get_School_Place()
+        deo=self.DB.Get_School_DEO()
         contact=self.DB.Get_School_Contact()
         
         self.text_ctrl_1.Value=email
         self.text_ctrl_2.Value=contact
-        self.text_ctrl_3.Value=place
+        self.text_ctrl_3.Value=deo
         
         
 

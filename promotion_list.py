@@ -9,20 +9,80 @@ from reportlab.lib.enums import TA_CENTER,TA_JUSTIFY,TA_LEFT,TA_RIGHT
 
 import wx
 
+from reportlab.platypus.flowables import Flowable,Image
 
+from reportlab.lib import pdfencrypt
 
 from dboperations import db_operations
+from reportlab.lib.units import inch, mm
+
+#Test  encrp
+def encrpytmypdf(passwd=''):
+    
+    return pdfencrypt.StandardEncryption(passwd,canPrint=0)
+
+# Test Encr
+
+class verticaltext(Flowable):
 
 
+    def __init__(self, text):
+        Flowable.__init__(self)
+        self.text = text
 
+    def draw(self):
+        canvas = self.canv
+        canvas.rotate(90)
+        
+        fs = canvas._fontsize
+        
+        
+        canvas.translate(1, -fs)  # canvas._leading?
+        canvas.drawString(0, 0, self.text)
 
+    def wrap(self, aW, aH):
+        canv = self.canv
+        
+        fn, fs = canv._fontname, canv._fontsize
+        
+        return canv._leading, 1 + canv.stringWidth(self.text, fn, fs)
+class verticaltext_small(Flowable):
+    
+    def __init__(self, text):
+        Flowable.__init__(self)
+        self.text = text
+        
+
+    def draw(self):
+        canvas = self.canv
+        #canvas.hAlign='RIGHT'
+        canvas.setFont("Times-Roman", 7)
+        
+        canvas.rotate(90)
+        
+        fs = canvas._fontsize
+        
+        text_len=len(self.text)
+        canvas.translate(text_len-1, -fs)  # canvas._leading?
+        canvas.drawString(0, 0, self.text)
+
+    def wrap(self, aW, aH):
+        canv = self.canv
+        
+        fn, fs = canv._fontname, canv._fontsize
+        
+        return canv._leading, 1 + canv.stringWidth(self.text, fn, fs)
+       
+        
+        
+        
 class RotatedPara(Paragraph):
 
 
     def draw(self):
         self.canv.saveState()
-        self.canv.translate(23,-10)# 23,-10
-        self.canv.rotate(90)
+        self.canv.translate(0,0)# 23,-10
+        self.canv.rotate(360)
         Paragraph.draw(self)
 
         self.canv.restoreState()
@@ -32,8 +92,8 @@ class RotatedPara_2(Paragraph):
         
     def draw(self):
         self.canv.saveState()
-        self.canv.translate(38,-25)# 23,-10
-        self.canv.rotate(90)
+        self.canv.translate(0,0)# 23,-10
+        self.canv.rotate(0)
         Paragraph.draw(self)
 
         self.canv.restoreState()
@@ -72,11 +132,11 @@ class Promotion_List():
 
    
     
-    def __init__(self,year="",school="",class_="",div="",edu_dist="",working_days="",con=[],mypagesize=A3,path="/tmp/promotion_list.pdf"):#(21*cm,25*cm)):
+    def __init__(self,year="",school="",class_="",div="",edu_dist="",working_days="",con=[],mypagesize=A3,path="/tmp/promotion_list.pdf",passwd=''):#(21*cm,25*cm)):
         
         
         self.path=path
-        
+        self.passwd=passwd
         self.year=year
         self.school=school
         self.class_=class_
@@ -94,73 +154,113 @@ class Promotion_List():
         styleSheet = getSampleStyleSheet()
         
         self.elements = []
-        self.doc = SimpleDocTemplate(self.path, pagesize=landscape(mypagesize),title="Promotion List",topMargin=.2*inch,bottomMargin=.2*inch,author="Asif Kodur",subject="easy exam")
+        enc=self.encrpytmypdf()
+        self.doc = SimpleDocTemplate(self.path, pagesize=landscape(mypagesize),title="Promotion List",topMargin=.2*inch,bottomMargin=.2*inch,author="Asif Kodur",subject="easy exam",encrypt=enc)
         
         self.passed_no=0
         self.table_count=0     
         self.page_count=0   
         #self.Set_Content()
-        
-                                            
-       
-                                                
+         
 
         # Starts measurement
+        if mypagesize==A3:
 
-        self.cW1=.8
-        self.cW2=6
-        self.cW3=.55
-        self.cW4=.4
-        self.cW5=.9
-        
-        
-        
-        self.rH1=.35
-        
-        self.rH2=.8
-        self.rH3=1.3
-        self.rH4=.35
-        
-        
-        #app = wx.PySimpleApp(0)
-        msg="Do you want to add total of TE in remarks column ?"
+            self.cW1=.8
+            self.cW2=6
+            self.cW3=.55
+            self.cW4=.4
+            self.cW5=.9
+            
+            
+            
+            self.rH1=.35
+            
+            self.rH2=.8
+            
+            self.rH3=2
+            
+            self.rH4=.5
+        '''
+        elif mypagesize==A4:
+            self.cW1=.4
+            self.cW2=3
+            self.cW3=.22
+            self.cW4=.2
+            self.cW5=.45
+            
+            
+            
+            self.rH1=.12
+            
+            self.rH2=.4
+            
+            self.rH3=1
+            
+            self.rH4=.25
+        '''
+        # This area can be uncommented to enable TE total in remark
+        '''msg="Do you want to add total of TE in remarks column ?"
         dlg = wx.MessageDialog(None, msg,style=wx.YES_NO)            
         if dlg.ShowModal() == wx.ID_YES:
             
             self.REMOVE_TOTAL=False
         else:
             self.REMOVE_TOTAL=True
-       
+        '''
+        self.REMOVE_TOTAL=True
 
         #end of measurement
     def Set_Heading(self):
         
         
+        
         # Rotated Text here
         style = getSampleStyleSheet()
         normal = style["Normal"]
+        style1=ParagraphStyle(name='normal',fontSize = 8,alignment = TA_CENTER)
         
-        roll='Roll\nNo'#RotatedPara('Roll No', normal)
-        ad_no=RotatedPara_2('Admission.No', normal)
+        
+        style = getSampleStyleSheet()
+        normal = style["Normal"]
+        
+        style1=ParagraphStyle(name='normal',fontSize = 8,alignment = TA_CENTER)
+        
+        roll=verticaltext('Roll No')
+        
+        ad_no=verticaltext('Adm No')
         trm='Term'
-        year="Year\nof\nStudy"#RotatedPara('Year of Study', normal)
-        ce="CE"#RotatedPara('CE', normal)
-        total=RotatedPara_3('Total', normal)
-        te="TE"#RotatedPara('TE', normal)
-        grade=RotatedPara_3('Grade', normal)
-        practical=RotatedPara('Practical', normal)
-        work_exp="Work\nExp"#RotatedPara('Work Exp', normal)
-        art_edu="Art\nEdu"#RotatedPara('Art Edn', normal)
-        phy_edu="Phy&\nHlth\nEdu"#RotatedPara('Phy & Health Edn', normal)
-        commu=RotatedPara('<font size=5>communication</font>', normal)
-        group=RotatedPara('<font size=5>group_activity</font>', normal)
-        regularity=RotatedPara('<font size=5>regularity</font>', normal)
-        leadership=RotatedPara('<font size=5>leadership</font>', normal)
-        club=RotatedPara('<font size=5>club_activity</font>', normal)
-        attndn=RotatedPara_4('<font size=7>Attendance(%)</font></font>', normal)
-        promotion=RotatedPara_2('<font size=7>Promoted/Detained</font>', normal)
-        basis=RotatedPara_2('<font size=7>Basis_of_Promotion</font>', normal)
-        remarks=RotatedPara_3('<font size=7> Remarks</font>', normal)
+        year="Year\nof\nStudy"
+        ce="CE"
+        total=verticaltext('Total')
+        te="TE"
+        grade=verticaltext('Grade')
+        practical=verticaltext('Practical')
+        work_exp="Work\nExp"
+        art_edu="Art\nEdu"
+        phy_edu="Phy&\nHlth\nEdu"
+        
+        
+        '''
+        commu=Image('Resources/promotion_list_img/communication.png')#'commu'
+        commu.drawHeight=35
+        commu.drawWidth=5
+        '''
+        commu=verticaltext_small('Communication')
+        
+        group=verticaltext_small('Group Activity')
+        
+        regularity=verticaltext_small('Regularity')
+        
+        leadership=verticaltext_small('Leadership')
+        
+        club=verticaltext_small('Club Activity')
+        
+        
+        attndn=verticaltext_small('Attendance(%)')#<font size=7>Attendance(%)</font>')
+        promotion=verticaltext_small('Promoted/Detained')#<font size=7>Promoted/Detained</font>')
+        basis=verticaltext_small('Basis of Promotion')#<font size=7>Basis_of_Promotion</font>')
+        remarks=verticaltext_small('Remarks')#<font size=7> Remarks</font>')
         # End of Totated Txt
         if self.class_=='8':
             
@@ -253,6 +353,8 @@ class Promotion_List():
                                 
                                 
                                 ('SPAN',(52,0),(56,0)),   # Part3
+                                ('VALIGN',(52,0),(56,0),'TOP'),
+                                ('ALIGN',(52,0),(56,0),'RIGHT'),
                                 
                                 ('SPAN',(57,0),(57,-1)),   # attnd
                                 ('SPAN',(58,0),(58,-1)),   # promo
@@ -289,7 +391,7 @@ class Promotion_List():
         style1=ParagraphStyle(name='normal',fontSize = 8,alignment = TA_CENTER)
         
        
-        t1=Paragraph('<font size=6>Boys</font>',style1)
+        t1=Paragraph('<font size=6 >Boys</font>',style1)
         t2=Paragraph('<font size=6>Girls</font>',style1)
         t3=Paragraph('<font size=6>Total</font>',style1)
         t4=Paragraph('<font size= 7>Total No of Students</font>',style1)
@@ -389,17 +491,22 @@ class Promotion_List():
         
     def Format_Part_3(self):
         
-        commu=RotatedPara('communication skill', normal)
-        group=RotatedPara('Group Activity Skill', normal)
-        regularity=RotatedPara('Regularity', normal)
-        leadership=RotatedPara('Leadership<br/> Quality', normal)
-        club=RotatedPara('Club Activity', normal)
+        commu=verticaltext('communication skill')
+        group=verticaltext('Group Activity Skill')
+        regularity=verticaltext('Regularity')
+        leadership=verticaltext('Leadership/n Quality')
+        club=verticaltext('Club Activity')
         
     def Format_Adm_No(self,ad_no):
                 
         style = getSampleStyleSheet()
         normal = style["Normal"]
-        return RotatedPara(ad_no, normal)
+        
+        style1=ParagraphStyle(name='normal',fontSize = 8,alignment = TA_CENTER)
+        
+       
+        ad_text= Paragraph('<font size=6>'+str(ad_no)+'</font>',style1)
+        return verticaltext(str(ad_no))
         
     def Format_Title(self):
         
@@ -466,7 +573,7 @@ class Promotion_List():
         
                 
         return Paragraph('''
-            <para align=center spaceb=0><b>
+            <para align=left spaceb=0><b>
             <font size=7><i>%s</i>
             
            </font> </b>
@@ -539,7 +646,7 @@ class Promotion_List():
                                 ('SPAN',(57,0),(57,-1)),   # Attendance
                                 ('SPAN',(58,0),(58,-1)),   # promo
                                 ('SPAN',(59,0),(59,-1)),   # Basis
-                                #('SPAN',(60,0),(60,-1)) ,  # Remark
+                                ('SPAN',(60,0),(60,-1)) ,  # Remark
                                 ('SPAN',(4,0),(4,-1)) ,  # Remark
                                 
                                 ('BOX',(0,0),(4,3),1.5,colors.black), # Subject Blocks
@@ -1119,13 +1226,22 @@ class Promotion_List():
                 pass_t3=False
            
                 #finding average
+                #if (t1_ce_tot==None or t1_ce_tot==''):t1_ce_tot=0
+                if (t2_ce_tot==None or t2_ce_tot==''):t2_ce_tot=0
+                if (t3_ce_tot==None or t3_ce_tot==''):t3_ce_tot=0
+                
+                #if (t1_te_tot==None or t1_te_tot==''):t1_te_tot=0
+                if (t2_te_tot==None or t2_te_tot==''):t2_te_tot=0
+                if (t3_te_tot==None or t3_te_tot==''):t3_te_tot=0
+                
+                
                 if t2_ce_tot!=0 and t2_te_tot!=0:
                     
                     denom=1
                     if t3_ce_tot!=0 and t3_te_tot!=0:
                         denom+=1
                     
-                        
+                    #try:    
                     avrg_ce=(t2_ce_tot+t3_ce_tot)/denom
                     avrg_te=(t2_te_tot+t3_te_tot)/denom
                     avrg_total,avrg_grade=self.CalculateGrade(avrg_ce,avrg_te,BS_max_ce+BS_max_te)
@@ -1138,6 +1254,9 @@ class Promotion_List():
                         promoted='D'
                     else: #promoted in averg
                         base='B2'
+                    #except:
+                    #    print "ce_tot",t2_ce_tot,"t3_tot",t3_ce_tot
+                    #    print "ce,te",p_ce3,p_te3,c_ce3,c_te3,b_ce3, b_te3
                 else:
                     promoted='D'
                     SCORES4=['','','','']*3
@@ -1221,20 +1340,26 @@ class Promotion_List():
                 
                         
         
-        self.doc.build(self.elements)
+        self.doc.build(self.elements,onFirstPage=self.footer, onLaterPages=self.footer)
         
         if open:
             import subprocess
             
            
             subprocess.call(["xdg-open",self.path])
-                   
+            
+            
+    def encrpytmypdf(self):
+        #use DOB
+        return pdfencrypt.StandardEncryption(self.passwd,canPrint=0)            
+                
+                
     def Failed_Report(self):
         
         if len(self.Failed_List)==0:
             msg="All Students Passed"
         else:
-            msg="The following Student(s) Failed\n"
+            msg="The following Student(s) detained\n"
             no=0
             for pupil in self.Failed_List:
                 no+=1
@@ -1266,6 +1391,20 @@ class Promotion_List():
         self.Failed_Report()
         self.Save(open)
         
+    def footer(self,canvas, doc):
+        Title = ""
+        
+        self.footer_text= "Generated using smart school software. "
+        
+        
+        PAGE_WIDTH,PAGE_HEIGHT=self.mypagesize
+
+        canvas.saveState()
+        canvas.setFont('Times-Bold',16)
+        canvas.drawCentredString(PAGE_WIDTH/2.0, PAGE_HEIGHT-108, Title)
+        canvas.setFont('Times-Roman',7)
+        canvas.drawString(inch, 0.25 * inch, self.footer_text)
+        canvas.restoreState()
        
 class promo_window(wx.Dialog):
     def __init__(self, *args, **kwds):
@@ -1409,12 +1548,15 @@ class promo_window(wx.Dialog):
    
     
 if __name__ == "__main__":
+    
     app = wx.PySimpleApp(0)
-    wx.InitAllImageHandlers()
+    '''wx.InitAllImageHandlers()
     frame_1 =promo_window(None, -1, "")
     app.SetTopWindow(frame_1)
     frame_1.ShowModal()
     frame_1.Destroy()
 
     app.MainLoop()
-    
+    '''
+    P=Promotion_List("2016","school","8","C","deo",50) 
+    P.run()

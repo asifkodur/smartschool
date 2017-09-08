@@ -10,17 +10,14 @@ from dboperations import db_operations
 
 
 
+from reportlab.lib import pdfencrypt
 
-class Rotated_BS(Paragraph):
-    
-        
-    def draw(self):
-        self.canv.saveState()
-        self.canv.translate(20,-5)# 23,-10
-        self.canv.rotate(90)
-        Paragraph.draw(self)
+from dboperations import db_operations
+from promotion_list import verticaltext
 
-        self.canv.restoreState()
+
+            
+
 
 
 
@@ -44,13 +41,16 @@ styleSheet = getSampleStyleSheet()
 
 class Report():
  
-
+    # The class prepares progress reoprts
+    #if the list of admission numbers passed to PopulateTables() only those students' report generated
+    #othewise generates the report of the whole classs
    
-    
-    def __init__(self,mypagesize=(21*cm,25*cm)):
+    # if auto_open is True opens automaticaly after generation
+    def __init__(self,mypagesize=(21*cm,25*cm),passwd='',path="/tmp/report.pdf",auto_open=True):
+        # Encrypts if password is passed as passwd='mypass'
         
-        
-        self.path="/tmp/report.pdf"
+        self.path=path
+        self.auto_open=auto_open
         self.name="TEST"
         self.year="TEST"
         self.class_="TEST"
@@ -60,15 +60,19 @@ class Report():
         styleSheet = getSampleStyleSheet()
         self.mypagesize=mypagesize
         self.elements = []
-        self.doc = SimpleDocTemplate(self.path, pagesize=mypagesize,title="Performance Report",topMargin=.4*inch,bottomMargin=.3*inch,author="Asif Kodur")
+        
+        
+        enc=pdfencrypt.StandardEncryption(passwd,canPrint=0)
+    
+        
+        self.doc = SimpleDocTemplate(self.path, pagesize=mypagesize,title="Performance Report",topMargin=.4*inch,bottomMargin=.3*inch,author="Asif Kodur",encrypt=enc)
         
         self.DB=db_operations()
         
         self.Set_Content()
         
-                                            
-       
-                                                
+        
+                                       
 
         # Starts measurement
 
@@ -84,7 +88,7 @@ class Report():
         #end of measurement
     def footer(self,canvas, doc):
         Title = ""
-        pageinfo = "generated using '=smart school software.For more details visit www.mysite.com"
+        pageinfo = "generated using Smart School Software"
         
         
         PAGE_WIDTH,PAGE_HEIGHT=self.mypagesize
@@ -422,7 +426,7 @@ class Report():
         
        
         
-    def PopulateTables(self,YEAR,CLASS,DIV,TERM_INDEX):
+    def PopulateTables(self,YEAR,CLASS,DIV,TERM_INDEX,ADM_NO=[]):
         
        
         div_id=self.DB.Get_Div_Id(YEAR,CLASS,DIV)
@@ -483,6 +487,15 @@ class Report():
             self.admission_no=LAN1[n][2]
             if self.name=="" and self.roll_no=="" and self.admission_no=="":
                 continue
+            
+            if ADM_NO: # if admission numbr is empty list , generates for whole class. No fileterin
+            
+                try: 
+                    if ADM_NO.index(self.admission_no): # throws exception if the ite not in the list ADM_NO
+                        pass
+                except:
+                    continue
+            
             self.Set_Content()
             
             
@@ -616,6 +629,7 @@ class Report():
             
             self.AddPage()
             n+=1
+    
     def Calculate_Grade(self,ce,te,max_ce,max_te):
         
         try:
@@ -668,14 +682,21 @@ class Report():
         import subprocess
                 
                         
-        
-        self.doc.build(self.elements,onFirstPage=self.footer, onLaterPages=self.footer)
-        
         try:
-                subprocess.call(["xdg-open",self.path])
+            self.doc.build(self.elements,onFirstPage=self.footer, onLaterPages=self.footer)
         except:
+            return False
+        
+        if self.auto_open:
             
-            print "pdf opening error"
+            try:
+                    subprocess.call(["xdg-open",self.path])
+            except:
+                
+                print "pdf opening error"
+                return 0
+            
+        return True
             
             
             
@@ -689,8 +710,15 @@ dir = os.path.split(sys.argv[0])[0]
 class Report_8():
     
     
-    def __init__(self,mypagesize=(21*cm,25*cm)):
+    # The class prepares progress reoprts
+    #if the list of admission numbers passed to PopulateTables() only those students' report generated
+    #othewise generates the report of the whole classs
+   
+    # if auto_open is True opens automaticaly after generation
+    def __init__(self,mypagesize=(21*cm,25*cm),passwd='',path="/tmp/report.pdf",auto_open=True):
         
+        self.path=path
+        self.auto_open=auto_open
         self.name="TEST"
         self.year="TEST"
         self.class_="TEST"
@@ -700,8 +728,15 @@ class Report_8():
         styleSheet = getSampleStyleSheet()
         self.mypagesize=mypagesize
         self.elements = []
-        self.doc = SimpleDocTemplate("/tmp/report.pdf", pagesize=mypagesize,title="Performance Report",topMargin=.4*inch,bottomMargin=.3*inch,author="Asif Kodur")
+        
+        
+        enc=pdfencrypt.StandardEncryption(passwd,canPrint=0)
+        
+        self.doc = SimpleDocTemplate(self.path, pagesize=mypagesize,title="Performance Report",topMargin=.4*inch,bottomMargin=.3*inch,author="Asif Kodur",encrypt=enc)
         self.DB=db_operations()
+        
+        
+        
         
         
         self.Set_Content()
@@ -722,6 +757,19 @@ class Report_8():
         
 
         #end of measurement
+    def footer(self,canvas, doc):
+        Title = ""
+        pageinfo = "generated using Smart School software.For more details"
+        
+        
+        PAGE_WIDTH,PAGE_HEIGHT=self.mypagesize
+
+        canvas.saveState()
+        canvas.setFont('Times-Bold',16)
+        canvas.drawCentredString(PAGE_WIDTH/2.0, PAGE_HEIGHT-108, Title)
+        canvas.setFont('Times-Roman',7)
+        canvas.drawString(inch, 0.25 * inch, pageinfo)
+        canvas.restoreState()
 
     def Set_Content(self):
         
@@ -971,7 +1019,8 @@ class Report_8():
         
         style = getSampleStyleSheet()
         normal = style["Normal"]
-        BS_=Rotated_BS('<font size=10><b>  Basic Science<b></font>', normal)
+        #BS_=Rotated_BS('<font size=10><b>  Basic Science<b></font>', normal)
+        BS_=verticaltext('Basic Science')
         self.Score_Data=   [[self.SCHOOL, '', '', '','','','','','',''],
                                     [self.NAME,  '', '','', '','','','', '',''],
                                     [self.ADMISSION_NO, '', '', '', '','',self.YEAR,'', '',''],
@@ -1063,7 +1112,7 @@ class Report_8():
         
        
         
-    def PopulateTables(self,YEAR,CLASS,DIV,TERM_INDEX):
+    def PopulateTables(self,YEAR,CLASS,DIV,TERM_INDEX,ADM_NO=[]):
         
         div_id=self.DB.Get_Div_Id(YEAR,CLASS,DIV)
         strength=self.DB.Get_Class_Strength(YEAR,CLASS,DIV)
@@ -1124,6 +1173,14 @@ class Report_8():
             self.admission_no=SCORE1[0][student_no][2]
             if self.name=="" and self.roll_no=="" and self.admission_no=="":
                 continue
+            
+            if ADM_NO: # if admission numbr is empty list , generates for whole class. No fileterin
+            
+                try: 
+                    if ADM_NO.index(self.admission_no): # throws exception if the ite not in the list ADM_NO
+                        pass
+                except:
+                    continue
             self.Set_Content()
         
             Data_Col=6
@@ -1132,7 +1189,7 @@ class Report_8():
             for sub_index in range(len(SCORE1)):# this cud b erronious if roll no changes across terms
                 
                 max_ce,max_te=self.DB.Get_CE_TE(self.year,CLASS,sub_index)
-                print "sub indx,ce,te",sub_index,max_ce,max_te              
+                #print "sub indx,ce,te",sub_index,max_ce,max_te              
                
                 
                 #Term I    
@@ -1289,7 +1346,7 @@ class Report_8():
                     # TermI
                     if ce1_p=='' and te1_p=='' and ce1_c=='' and te1_c=='' and ce1_b=='' and te1_b=='':
                         ce1_p=te1_p=ce1_c=te1_c=ce1_b=te1_b=tot1=grade1=''
-                        print 't1 empty'
+                        #print 't1 empty'
                     self.Score_Data[Data_Col][2]=str(ce1_p)     #CE      phy      
                     self.Score_Data[Data_Col][3]=str(te1_p)    #TE      phy
                                     
@@ -1427,7 +1484,7 @@ class Report_8():
         else:
             Grd="E"
             
-        print "returning total, grage",tot,Grd
+        #print "returning total, grage",tot,Grd
         return tot,Grd
        
     
@@ -1457,13 +1514,22 @@ class Report_8():
                 
                         
         
-        self.doc.build(self.elements)
-        
         try:
-                subprocess.call(["xdg-open","/tmp/report.pdf"])
-        except:
             
-            print "pdf opening error"
+            self.doc.build(self.elements,onFirstPage=self.footer, onLaterPages=self.footer)
+        
+        except:
+            return False
+        
+        if self.auto_open:
+            try:
+                    subprocess.call(["xdg-open",self.path])
+            except:
+                
+                print "pdf opening error"
+                
+        return True
+                
                                             
  
 class Partial_Report():
@@ -2138,7 +2204,7 @@ class Partial_Report_8():
     def Save(self):
         
         
-
+        
         import subprocess
                 
                         
@@ -2152,4 +2218,13 @@ class Partial_Report_8():
             print "pdf opening error"
                                             
  
- 
+
+if __name__ == "__main__":
+
+    R=Report(passwd="",auto_open=1,path="/tmp/hello.pdf")
+                
+    R.SetTable_Style()
+
+    R.PopulateTables("2016","8","A","1") #,['12431','12577'])
+    R.Save()
+     

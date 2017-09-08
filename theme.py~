@@ -1,0 +1,16 @@
+#theme.py
+import wx
+
+
+############################
+#Themes Hre
+
+############################
+WINDOW_BG_COLOR=wx.Colour(47, 47, 47)
+
+WINDOW_FG_COLOR=wx.Colour(255, 255, 255)
+BUTTON_SIZE_NORMAL=(120, 40)
+BUTTON_BG_COLOR=wx.Colour(33, 137, 33)
+BUTOON_FG_COLOR=wx.Colour(255, 255, 255)
+COMBO_SIZE_NORMAL=(200, 30)
+LABEL_FG_COLOR=wx.Colour(255, 255, 255)

@@ -1,5 +1,7 @@
+#!/usr/bin/env python
 import wx,os
-from login import win_login
+import gettext
+from login import login
 
 
 if __name__ == "__main__":
@@ -12,7 +14,7 @@ if __name__ == "__main__":
         open(path,'w')
         app = wx.PySimpleApp(0)
         wx.InitAllImageHandlers()
-        frame_1 = win_login(None, -1, "")
+        frame_1 = login(None, -1, "")
         app.SetTopWindow(frame_1)
         frame_1.Show()
         app.MainLoop()

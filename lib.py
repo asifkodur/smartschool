@@ -5,7 +5,7 @@
 
 import wx
 import wx.grid as gridlib
-
+import THEME
 
 import os,sys
 
@@ -948,9 +948,45 @@ class MyGridForm(wx.Frame):
         
         self.button_1.Enabled=False
         
+        self.button_1.SetSize(THEME.BUTTON_SIZE_NORMAL)
+        self.button_2.SetSize(THEME.BUTTON_SIZE_NORMAL)
+        
         
         self.__do_layout()
         self.Set_ReadOnly()
+        
+        
+        
+        self.grid_1.SetBackgroundColour(THEME.WINDOW_BG_COLOR)
+        self.SetBackgroundColour(THEME.WINDOW_BG_COLOR)
+        
+       
+        self.button_1.SetForegroundColour(THEME.BUTTON_FG_COLOR_WHITE)
+        self.button_2.SetForegroundColour(THEME.BUTTON_FG_COLOR_WHITE)
+        
+        self.button_1.SetBackgroundColour(THEME.BUTTON_BG_COLOR_GREEN)
+        self.button_2.SetBackgroundColour(THEME.BUTTON_BG_COLOR_GREEN)
+       
+        
+        self.label_1.SetForegroundColour(THEME.LABEL_FG_COLOR_WHITE)
+        
+        
+        self.label_2.SetForegroundColour(THEME.LABEL_FG_COLOR_WHITE)
+        
+        
+        self.label_3.SetForegroundColour(THEME.LABEL_FG_COLOR_WHITE)
+        
+        
+        self.label_4.SetForegroundColour(THEME.LABEL_FG_COLOR_WHITE)
+        
+        
+        self.label_5.SetForegroundColour(THEME.LABEL_FG_COLOR_WHITE)
+        
+        
+        self.label_6.SetForegroundColour(THEME.LABEL_FG_COLOR_WHITE)
+        
+        
+        #self.grid_1.SetBackgroundColour(THEME.WINDOW_BG_COLOR)
         
 
     def __do_layout(self):

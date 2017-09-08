@@ -40,3 +40,14 @@ class About(wx.Frame):
         wx.AboutBox(info)
         self.Close()
         
+
+if __name__ == "__main__":
+    import gettext
+    gettext.install("app") # replace with the appropriate catalog name
+
+    app = wx.PySimpleApp(0)
+    wx.InitAllImageHandlers()
+    main_frame = About(None, wx.ID_ANY, "")
+    app.SetTopWindow(main_frame)
+    main_frame.Show()
+    app.MainLoop()

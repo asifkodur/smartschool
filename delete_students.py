@@ -50,12 +50,16 @@ class delete_student(wx.Dialog):
         
         
         self.SetBackgroundColour(THEME.WINDOW_BG_COLOR)
+        self.SetForegroundColour(THEME.WINDOW_FG_COLOR)
+        
         self.panel_1.SetBackgroundColour(THEME.WINDOW_BG_COLOR)
+        self.panel_1.SetForegroundColour(THEME.WINDOW_FG_COLOR)
         self.panel_2.SetBackgroundColour(THEME.WINDOW_BG_COLOR)
-        self.button_close.SetBackgroundColour(THEME.BUTTON_BG_COLOR)
-        self.button_close.SetForegroundColour(THEME.BUTTON_FG_COLOR)        
-        self.button_proceed.SetBackgroundColour(THEME.BUTTON_BG_COLOR)
-        self.button_proceed.SetForegroundColour(THEME.BUTTON_FG_COLOR)
+        self.button_close.SetBackgroundColour(THEME.BUTTON_BG_COLOR_GREEN)
+        self.button_close.SetForegroundColour(THEME.BUTTON_FG_COLOR_WHITE)        
+        self.button_proceed.SetBackgroundColour(THEME.BUTTON_BG_COLOR_GREEN)
+        self.button_proceed.SetForegroundColour(THEME.BUTTON_FG_COLOR_WHITE)
+        self.label_1.SetForegroundColour(THEME.LABEL_FG_COLOR_WHITE)
         #self.panel_2.SetForegroundColour(theme.BUTTON_BG_COLOR)
         
         self.SetSize((749, 710))

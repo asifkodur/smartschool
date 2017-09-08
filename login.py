@@ -127,20 +127,21 @@ class login(wx.Frame):
     def __set_properties(self):
         # begin wxGlade: sms_dialoge.__set_properties
         self.SetTitle(("Login            SmartSchool"))
-        self.SetSize((1262, 707))
-        self.SetBackgroundColour(wx.Colour(47, 47, 47))
-        self.label_7.SetForegroundColour(wx.Colour(255, 255, 255))
+        
+        self.SetBackgroundColour(THEME.WINDOW_BG_COLOR)
+        
+        self.label_7.SetForegroundColour(THEME.LABEL_FG_COLOR_WHITE)
         self.combo_box_1.SetMinSize((250, 33))
         self.combo_box_1.SetSelection(0)
-        self.label_8.SetForegroundColour(wx.Colour(255, 255, 255))
+        self.label_8.SetForegroundColour(THEME.LABEL_FG_COLOR_WHITE)
         self.text_ctrl_1.SetMinSize((250, 33))
         self.button_1.SetMinSize((140, 38))
-        self.button_1.SetBackgroundColour(wx.Colour(33, 137, 33))
-        self.button_1.SetForegroundColour(wx.Colour(255, 255, 255))
+        self.button_1.SetBackgroundColour(THEME.BUTTON_BG_COLOR_GREEN)
+        self.button_1.SetForegroundColour(THEME.BUTTON_FG_COLOR_WHITE)
         self.button_2.SetMinSize((140, 38))
-        self.button_2.SetBackgroundColour(wx.Colour(33, 137, 33))
-        self.button_2.SetForegroundColour(wx.Colour(255, 255, 255))
-        self.panel_5.SetBackgroundColour(wx.Colour(47, 47, 47))
+        self.button_2.SetBackgroundColour(THEME.BUTTON_BG_COLOR_GREEN)
+        self.button_2.SetForegroundColour(THEME.BUTTON_FG_COLOR_WHITE)
+        self.panel_5.SetBackgroundColour(THEME.WINDOW_BG_COLOR)
         self.button_2.Disable()
         # end wxGlade
 

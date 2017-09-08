@@ -5,6 +5,7 @@
 import wx
 
 from dboperations import db_operations
+import THEME
 # begin wxGlade: extracode
 # end wxGlade
 
@@ -81,6 +82,26 @@ class add_div(wx.Dialog):
         self.button_2.Enable(False)
         self.button_3.SetMinSize((85, 35))
         self.panel_1.SetScrollRate(10, 10)
+        
+        
+        self.SetForegroundColour(THEME.WINDOW_FG_COLOR)
+        self.SetBackgroundColour(THEME.WINDOW_BG_COLOR)
+        self.panel_1.SetForegroundColour(THEME.WINDOW_FG_COLOR)
+        self.panel_1.SetBackgroundColour(THEME.WINDOW_BG_COLOR)
+        
+        self.button_1.SetForegroundColour(THEME.BUTTON_FG_COLOR_WHITE)
+        self.button_1.SetBackgroundColour(THEME.BUTTON_BG_COLOR_GREEN)
+        self.button_2.SetForegroundColour(THEME.BUTTON_FG_COLOR_WHITE)
+        self.button_2.SetBackgroundColour(THEME.BUTTON_BG_COLOR_GREEN)
+        self.button_3.SetForegroundColour(THEME.BUTTON_FG_COLOR_WHITE)
+        self.button_3.SetBackgroundColour(THEME.BUTTON_BG_COLOR_GREEN)
+        
+        self.label_1.SetForegroundColour(THEME.LABEL_FG_COLOR_WHITE)
+        self.label_2.SetForegroundColour(THEME.LABEL_FG_COLOR_WHITE)
+        
+        
+        
+        
         # end wxGlade
 
     def __do_layout(self):

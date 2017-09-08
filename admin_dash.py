@@ -21,6 +21,8 @@ from student_profile import student_profile
 dir = os.path.split(sys.argv[0])[0]
 path=dir+'/Resources/img/'
 
+import THEME
+
 
 
 class admin_dash_b(wx.Frame):
@@ -80,7 +82,7 @@ class admin_dash_b(wx.Frame):
         self.label_sms = wx.StaticText(self.panel_1, -1, "SMS")
         
         self.label_font=wx.Font(9, wx.DEFAULT, wx.ITALIC, wx.BOLD, 0, "")
-        self.label_fg_color=wx.Colour(219, 112, 147)
+        self.label_fg_color=THEME.LABEL_FG_COLOR_ADMIN_DASH_ICONS
         
         self.__set_properties()
         self.__do_layout()
@@ -180,10 +182,10 @@ class admin_dash_b(wx.Frame):
 
     def __set_properties(self):
         self.SetTitle("Dash Board")
-        self.SetBackgroundColour(wx.Colour(0, 0, 0))
-        self.SetForegroundColour(wx.Colour(255, 255, 255))
+        self.SetBackgroundColour(THEME.WINDOW_BG_COLOR)
+        self.SetForegroundColour(THEME.WINDOW_FG_COLOR)
         self.SetFocus()
-        self.label_1.SetForegroundColour(wx.Colour(107, 142, 35))
+        self.label_1.SetForegroundColour(THEME.LABEL_FG_COLOR_GREEN)#wx.Colour(107, 142, 35))
         self.label_1.SetFont(wx.Font(23, wx.DEFAULT, wx.ITALIC, wx.BOLD, 0, ""))
         
         self.label_institution.SetForegroundColour(self.label_fg_color)
@@ -252,8 +254,8 @@ class admin_dash_b(wx.Frame):
         
         
         
-        self.panel_1.SetBackgroundColour(wx.Colour(0, 0, 0))
-        self.panel_1.SetForegroundColour(wx.Colour(255, 255, 255))
+        self.panel_1.SetBackgroundColour(THEME.WINDOW_BG_COLOR)
+        self.panel_1.SetForegroundColour(THEME.WINDOW_FG_COLOR)
         # end wxGlade
 
     def __do_layout(self):

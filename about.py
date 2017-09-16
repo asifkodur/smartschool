@@ -1,11 +1,13 @@
 import wx
 import os,sys
 
-class About(wx.Frame):
-    def __init__(self, parent, id, title):
+class About(wx.Dialog):
+    def __init__(self, *args, **kwds):#(self, parent, id, title):
         
-        
-        wx.Frame.__init__(self, parent, id, title, size=(260, 200))
+        kwds["style"] = wx.CAPTION | wx.CLOSE_BOX  | wx.STAY_ON_TOP | wx.FRAME_FLOAT_ON_PARENT | wx.TAB_TRAVERSAL
+
+        wx.Dialog.__init__(self, *args, **kwds)
+        #wx.Dialog.__init__(self, parent, id, title, size=(260, 200))
         
         self.ShowMe()
         self.Centre()

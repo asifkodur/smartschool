@@ -7,6 +7,7 @@
 
 
 import wx
+import THEME
 
 # begin wxGlade: dependencies
 import gettext
@@ -90,25 +91,7 @@ class student_profile(wx.Dialog):
         #self.Bind(wx.EVT_TEXT_ENTER, self.on_uid_enter, self.text_ctrl_uid)
         #self.Bind(wx.EVT_TEXT, self.on_uid_text, self.text_ctrl_uid)
         self.Bind(wx.EVT_COMBOBOX, self.on_gender__change, self.combo_box_gender)
-        #self.Bind(wx.EVT_TEXT_ENTER, self.on_category_enter, self.text_ctrl_dob)
-        #self.Bind(wx.EVT_TEXT, self.on_category, self.text_ctrl_dob)
-        #self.Bind(wx.EVT_TEXT_ENTER, self.on_category_enter, self.text_ctrl_category)
-        '''self.Bind(wx.EVT_TEXT, self.on_category, self.text_ctrl_category)
-        self.Bind(wx.EVT_TEXT_ENTER, self.on_religion_text, self.text_ctrl_religion)
-        self.Bind(wx.EVT_TEXT, self.on_religion_text, self.text_ctrl_religion)
-        self.Bind(wx.EVT_TEXT_ENTER, self.on_caste_enter, self.text_ctrl_caste)
-        self.Bind(wx.EVT_TEXT, self.on_caste_text, self.text_ctrl_caste)
-        self.Bind(wx.EVT_TEXT_ENTER, self.on_language_enter, self.text_ctrl_language)
-        self.Bind(wx.EVT_TEXT, self.on_langauge_text, self.text_ctrl_language)
-        self.Bind(wx.EVT_TEXT_ENTER, self.on_father_enter, self.text_ctrl_father)
-        self.Bind(wx.EVT_TEXT, self.on_father_text, self.text_ctrl_father)
-        self.Bind(wx.EVT_TEXT_ENTER, self.on_mother_enter, self.text_ctrl_mother)
-        self.Bind(wx.EVT_TEXT, self.on_other_text, self.text_ctrl_mother)
-        self.Bind(wx.EVT_TEXT_ENTER, self.on_mobile_enter, self.text_ctrl_mobile)
-        self.Bind(wx.EVT_TEXT, self.on_mobile_text, self.text_ctrl_mobile)
-        self.Bind(wx.EVT_TEXT_ENTER, self.on_mobile_enter, self.text_ctrl_email)
-        self.Bind(wx.EVT_TEXT, self.on_mobile_text, self.text_ctrl_email)
-        '''
+        
         self.Bind(wx.EVT_BUTTON, self.on_add_new, self.button_add)
         self.Bind(wx.EVT_BUTTON, self.on_close, self.button_close)
         self.Bind(wx.EVT_BUTTON, self.on_delete, self.button_delete)
@@ -180,8 +163,40 @@ class student_profile(wx.Dialog):
         self.button_save.SetMinSize((120, 45))
         self.button_save.Enable(False)
         self.button_add.Enable(False)
-        self.bitmap_photo.Enable(False)        
+        self.bitmap_photo.Enable(False)    
+        
         # end wxGlade
+        
+    def set_theme(self):
+        
+        self.SetBackgroundColour(THEME.WINDOW_BG_COLOR)  
+        self.panel_1.SetBackgroundColour(THEME.WINDOW_BG_COLOR)  
+        
+        self.label_1.SetForegroundColour(THEME.LABEL_FG_COLOR_WHITE)
+        self.label_2.SetForegroundColour(THEME.LABEL_FG_COLOR_WHITE)
+        self.label_3.SetForegroundColour(THEME.LABEL_FG_COLOR_WHITE)
+        self.label_4.SetForegroundColour(THEME.LABEL_FG_COLOR_WHITE)
+        self.label_5.SetForegroundColour(THEME.LABEL_FG_COLOR_WHITE)
+        self.label_6.SetForegroundColour(THEME.LABEL_FG_COLOR_WHITE)
+        self.label_7.SetForegroundColour(THEME.LABEL_FG_COLOR_WHITE)
+        self.label_8.SetForegroundColour(THEME.LABEL_FG_COLOR_WHITE)
+        self.label_10.SetForegroundColour(THEME.LABEL_FG_COLOR_WHITE)
+        self.label_11.SetForegroundColour(THEME.LABEL_FG_COLOR_WHITE)
+        self.label_12.SetForegroundColour(THEME.LABEL_FG_COLOR_WHITE)
+        self.label_13.SetForegroundColour(THEME.LABEL_FG_COLOR_WHITE)
+        
+        self.button_add.SetBackgroundColour(THEME.BUTTON_BG_COLOR_GREEN)
+        self.button_add.SetForegroundColour(THEME.BUTTON_FG_COLOR_WHITE)
+        
+        self.button_close.SetBackgroundColour(THEME.BUTTON_BG_COLOR_GREEN)
+        self.button_close.SetForegroundColour(THEME.BUTTON_FG_COLOR_WHITE)
+        
+        self.button_delete.SetBackgroundColour(THEME.BUTTON_BG_COLOR_GREEN)
+        self.button_delete.SetForegroundColour(THEME.BUTTON_FG_COLOR_WHITE)
+        
+        self.button_save.SetBackgroundColour(THEME.BUTTON_BG_COLOR_GREEN)
+        self.button_save.SetForegroundColour(THEME.BUTTON_FG_COLOR_WHITE)
+        
 
     def __do_layout(self):
         # begin wxGlade: student_profie.__do_layout

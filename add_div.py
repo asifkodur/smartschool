@@ -61,7 +61,7 @@ class add_div(wx.Dialog):
     
     def __set_properties(self):
         # begin wxGlade: add_div.__set_properties
-        self.SetTitle("Manage Division")
+        self.SetTitle("Year & Division")
         self.SetSize((600, 500))
         #self.Enable(False)
         self.SetFocus()
@@ -84,6 +84,10 @@ class add_div(wx.Dialog):
         self.panel_1.SetScrollRate(10, 10)
         
         
+        # end wxGlade
+        
+    def set_theme(self):
+        
         self.SetForegroundColour(THEME.WINDOW_FG_COLOR)
         self.SetBackgroundColour(THEME.WINDOW_BG_COLOR)
         self.panel_1.SetForegroundColour(THEME.WINDOW_FG_COLOR)
@@ -102,7 +106,6 @@ class add_div(wx.Dialog):
         
         
         
-        # end wxGlade
 
     def __do_layout(self):
         # begin wxGlade: add_div.__do_layout

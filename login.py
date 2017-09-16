@@ -121,6 +121,7 @@ class login(wx.Frame):
         self.Bind(wx.EVT_BUTTON, self.on_login, self.button_2)
 
         self.text_ctrl_1.Bind(wx.EVT_KEY_DOWN, self.OnKeyPress)
+        self.Bind(wx.EVT_CLOSE,self.on_close,self)
         self.UO=user_operations(self)
         # end wxGlade
 
@@ -240,6 +241,14 @@ class login(wx.Frame):
                     event.Skip()
 
             event.Skip()
+            
+    def on_close(self,event):
+        try:
+            os.remove("/tmp/.smart-lock")
+        except:
+            pass
+        event.Skip()
+
 # end of class sms_dialoge
 if __name__ == "__main__":
     gettext.install("app") # replace with the appropriate catalog name

@@ -209,11 +209,7 @@ class Add_Student(wx.Dialog):
         else: # if admission no already exists
             
             
-            #here are errors regarding structure of self.CURRENTLIST and how it's identified in row obj
-            #print row,"row in valdt adm no"
-            #print "list\n",self.CURRENT_LIST
-            
-            #print "current value=",current_row
+           
             
            
             
@@ -641,20 +637,6 @@ class MyGridForm(wx.Frame):
         
         event.Skip()
         
-        """for i in range(self.Selected_TopLeft[0],self.Selected_BottomRight[0]+1,1):
-            for j in range(self.Selected_TopLeft[1],self.Selected_BottomRight[1]+1,1):
-                
-                if SUBJECT=="Basic Science":
-                    if j<9 or j==13: #not read only cols
-                        
-                        self.grid_1.SetCellValue(i,j,"")
-                        self.CalculateTotal(i,j)
-                else:
-                    if j!=5 and j!=6:
-                        self.grid_1.SetCellValue(i,j,"")
-                        self.CalculateTotal(i)
-                #print "(",i",",j,")"
-        """    
     
         
     
@@ -779,14 +761,6 @@ class MyGridForm(wx.Frame):
         
     def Delete(self):
         
-       
-        #print "slected",self.Selected_TopLeft[0]
-        #print "in delete"
-        """if self.Selected_TopLeft[0]==-1: #if only one cell , no range selected
-           
-            self.grid_1.SetCellValue( self.grid_1.GetGridCursorRow(), self.grid_1.GetGridCursorCol(),"")
-            here chek other read only deleted
-        """
         if self.Selected_TopLeft[0]!=-1:
             for i in range(self.Selected_TopLeft[0],self.Selected_BottomRight[0]+1,1):
                         for j in range(self.Selected_TopLeft[1],self.Selected_BottomRight[1]+1,1):
@@ -1260,22 +1234,6 @@ class MyGridForm(wx.Frame):
             self.grid_1.SetColSize(6, 120)
              # last item attendance
                 
-            #self.grid_1.SetColLabelValue(13,"Attendance")
-            #self.grid_1.SetColSize(13, 120)
-            #self.grid_1.SetColSize(7,self.grid_1.GetColSize(6))
-            
-        # Checks if the last subject was Basic Sc in which case delete a few cols    
-            """elif self.combo_box_1.Value =="Attendance":
-                print "attendance"
-                if self.grid_1.GetNumberCols()>10:# last itemm Bsc
-                    self.grid_1.DeleteCols(3,9)
-                elif self.grid_1.GetNumberCols()==8: #last item other subj
-                    self.grid_1.DeleteCols(3,3)
-                    
-                self.grid_1.SetColLabelValue(3, "Attendance")
-                self.grid_1.SetColSize(3, 120)
-            """
-        
                      
         self.grid_1.ForceRefresh()        
         self.SUBJECT=self.combo_box_1.Value
@@ -1937,19 +1895,17 @@ class MyGridForm(wx.Frame):
         #self.UNDO_LIST=self.UNDO_L
         # End of Undo
     
-        
-        ##print "new val=",value
-        ##print "old val=",self.current_cell_value
+        if len(self.CURRENT_LIST)==0:  #Checking if any sub is selected, if not aborts"
+            msg="Select One Subject before editing. Then only data can be saved"
+            dlg = wx.MessageDialog(self, msg, '',wx.OK | wx.ICON_INFORMATION)
+            dlg.ShowModal()
+            dlg.Destroy()
+           
+            self.grid_1.SetCellValue(row, col,self.current_cell_value)
+            return 0
+                
         
         if self.Validate_All(row, col,value):
-            
-            #OLD_CURRENT_LIST=self.CURRENT_LIST
-            #print "********* In the Beginning\n undolist 1\n",self.UNDO_LIST[0]
-            #print "Current List=\n",self.CURRENT_LIST
-            #print "OLD CUR LIst=\n",OLD_CURRENT_LIST
-            
-            #print "undolist at beg nning of anychng() 1\n",self.UNDO_LIST[0]
-            #self.grid_1.SetCellValue(row, col,value)
             
             
                 
@@ -1995,7 +1951,7 @@ class MyGridForm(wx.Frame):
                     
             else: #IOther SUbjects
                 
-                
+                    
                 self.CURRENT_LIST[0][row+1][0]=True
                 
                 """Begin Changing Basic Info"""
@@ -2016,51 +1972,7 @@ class MyGridForm(wx.Frame):
                     self.CURRENT_LIST[0][row+1][6]=value
                 elif col==4:
                     self.CURRENT_LIST[0][row+1][8]=value
-            #print "Current List=\n",self.CURRENT_LIST
-            # Begin Saves Undo List
-            #if not self.paste_lock and not self.delete_lock and not self.cut_lock: # To hold cut/paste/ as one unit
-            #print "### B4 chng  undo index=",self.UNDO_INDEX," lenght of list=",len(self.UNDO_LIST)
-            """
-            try:
-                print " @@@@@@@@@@ B4@@@@"
-                #print "In try OLD CUR LIst=\n",OLD_CURRENT_LIST
-                #self.CURRENT_LIST=[1]
-                #self.UNDO_LIST=[]
-                print "WHOLE UNDOlist",self.UNDO_LIST
-                print "undolist 1\n",self.UNDO_LIST[0]
-                print "undolist 2\n",self.UNDO_LIST[1]
-                print "undolist 3\n",self.UNDO_LIST[2]
-            except:
-                print "ERror in undo prnt"
-                print "undo index=",self.UNDO_INDEX," lenght of list=",len(self.UNDO_LIST)
-            """
             
-            #self.UNDO_LIST= self.UNDO_LIST[self.UNDO_INDEX:]
-            
-            #self.UNDO_LIST.insert(0,OLD_CURRENT_LIST)
-            #self.UNDO_LIST.insert(0,self.CURRENT_LIST)
-            
-            """try:
-                print " $$$$$$$$$$Aftr"
-                print "WHOLE UNDOlist",self.UNDO_LIST
-                print "undolist 1\n",self.UNDO_LIST[0]
-                print "undolist 2\n",self.UNDO_LIST[1]
-                print "undolist 3\n",self.UNDO_LIST[2]
-            except:
-                print "ERror in undo prnt"
-                print "undo index=",self.UNDO_INDEX," lenght of list=",len(self.UNDO_LIST)
-            """
-            #print "### Aftr chng  undo index=",self.UNDO_INDEX," lenght of list=",len(self.UNDO_LIST)
-
-            #self.UNDO_INDEX=0
-            #if len(self.UNDO_LIST)>10:
-            #    self.UNDO_LIST.pop()
-            #    #self.UNDO_LIST=self.UNDO_LIST[:10]
-                    
-                
-                
-            # Ends Saves Undo List
-           
         else:
                    
             #if not self.paste_lock:
@@ -2266,14 +2178,7 @@ class gate(wx.Frame):
         elif self.combo_box_4.Value=="Annual":
             TERM="Annual"
             TERM_INDEX=2
-        
-        """if self.combo_box_2.Value=="8":# Because of Basic Science there is defference in Index 
-            
-            ATTENDANCE_INDEX=41+(TERM_INDEX*39)
-        elif self.combo_box_2.Value=="9" or self.combo_box_1.Value=="10":# 9 and 10
-            
-            ATTENDANCE_INDEX=2+41+(TERM_INDEX*41)
-        """       
+         
                     
         if self.combo_box_1.Value!="Select" and self.combo_box_2.Value!="Select" and self.combo_box_2.Value!="Select":
             YEAR=self.combo_box_1.Value
@@ -2430,3 +2335,27 @@ class CE_TE(wx.Dialog):
                 return 0
             
         return 1
+    
+    
+
+if __name__ == "__main__":
+    import gettext
+    gettext.install("app") # replace with the appropriate catalog name
+
+    app = wx.PySimpleApp(0)
+    wx.InitAllImageHandlers()
+    institution = MyGridForm(None, wx.ID_ANY, "")
+    DB=db_operations()
+    YEAR=2017
+    STD='8'
+    DIV='A'
+    TERM_INDEX=0
+    STRENGTH=DB.Get_Class_Strength(YEAR,STD,DIV)
+    if STRENGTH!=0:
+        institution.set_properties(YEAR,STD,DIV,TERM_INDEX,STRENGTH)
+
+    app.SetTopWindow(institution)
+    institution.PopulateBasic()
+    institution.Show()
+    
+    app.MainLoop()

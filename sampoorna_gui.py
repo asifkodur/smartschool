@@ -167,11 +167,11 @@ class sampoorna_thread(Thread):
                 
     
  
-class sampoorna_win(wx.Frame):
+class sampoorna_win(wx.Dialog):
     def __init__(self, *args, **kwds):
         # begin wxGlade: sampoorna_win.__init__
         kwds["style"] = wx.CAPTION | wx.CLOSE_BOX |  wx.MAXIMIZE | wx.MAXIMIZE_BOX | wx.SYSTEM_MENU | wx.RESIZE_BORDER | wx.CLIP_CHILDREN
-        wx.Frame.__init__(self, *args, **kwds)
+        wx.Dialog.__init__(self, *args, **kwds)
         self.notebook_1 = wx.Notebook(self, wx.ID_ANY, style=0)
         self.login_pane = wx.Panel(self.notebook_1, wx.ID_ANY)
         self.panel_login = wx.Panel(self.login_pane, wx.ID_ANY)

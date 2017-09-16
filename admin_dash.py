@@ -74,7 +74,7 @@ class admin_dash_b(wx.Frame):
         self.label_sampoorna = wx.StaticText(self.panel_1, -1, "Import from Sampoorna")
         
         self.button_profile = wx.BitmapButton(self.panel_1, -1, wx.Bitmap(path+"profile.jpg", wx.BITMAP_TYPE_ANY))
-        self.label_profile = wx.StaticText(self.panel_1, -1, "Student Profile")
+        self.label_profile = wx.StaticText(self.panel_1, -1, "Manage Students")
         
         self.button_email = wx.BitmapButton(self.panel_1, -1, wx.Bitmap(path+"email.jpg", wx.BITMAP_TYPE_ANY))
         self.label_email = wx.StaticText(self.panel_1, -1, "Email")
@@ -493,12 +493,13 @@ class admin_dash_b(wx.Frame):
         event.Skip()
 
     def on_import_db(self, event):  # wxGlade: admin_dash.<event_handler>
-        
+        '''
         msg="This feature is suspended"
         dlg = wx.MessageDialog(self, msg, '',wx.OK | wx.ICON_INFORMATION)                  
         dlg.ShowModal()
         dlg.Destroy()
         return 0
+        '''
 
         
         
@@ -520,9 +521,11 @@ class admin_dash_b(wx.Frame):
                 path = open_dlg.GetPath()                
                  
                 try:   
-                    
+                
+                
                     self.DB.import_(path)
                     dlg = wx.MessageDialog(self, 'Successfully imported', '',wx.OK | wx.ICON_INFORMATION)    
+                    
                         
                 except:
                     dlg = wx.MessageDialog(self, 'Sorry, Could not import', '',wx.OK | wx.ICON_ERROR)    

@@ -1038,6 +1038,7 @@ class db_operations():
         self.import_working_days()
         self.import_student()
         self.import_score()
+        self.import_institution()
         
         self.cur2.execute("DROP TABLE STUDENT")
         self.cur2.execute("DROP TABLE DIV")
@@ -1062,10 +1063,25 @@ class db_operations():
         query="SELECT * FROM STUDENT"        
         self.cur2.execute(query)
         
+        i=0
         for new_row in self.cur2.fetchall():
             #print "in for"
+            i+=1
             new_ad_no=new_row[1]
             new_name=new_row[2]
+            new_uid=new_row[3]
+            new_gender=new_row[4]
+            new_dob=new_row[5]
+            new_category=new_row[6]
+            new_religion=new_row[7]
+            new_caste=new_row[8]
+            new_f_language=new_row[9]
+            new_father=new_row[10]
+            new_mother=new_row[11]
+            new_phone=new_row[12]
+            new_email=new_row[13]
+            
+            
             
             query="SELECT * FROM STUDENT WHERE ADMISSION_NO=?"
             self.cur.execute(query,(new_ad_no,))
@@ -1075,8 +1091,8 @@ class db_operations():
                 
                 #print "not exixt, addin",new_name
                 
-                query="INSERT INTO  STUDENT (ADMISSION_NO,NAME) VALUES(?,?)"
-                self.cur.execute(query,(new_ad_no,new_name))
+                query="INSERT INTO  STUDENT (ADMISSION_NO,NAME) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)"
+                self.cur.execute(query,(new_ad_no,new_name,new_uid,new_gender,new_dob,new_category,new_religion,new_caste,new_f_language,new_father,new_mother,new_phone,new_email))
                 
                 
             else:#  exixts,checks if has to update
@@ -1085,13 +1101,101 @@ class db_operations():
                 original_ad_no=original_rows[1]
                 original_name=original_rows[2]
             
-                if new_name==original_name: # Name same , no need to upadte
+                original_uid=original_rows[3]
+                original_gender=original_rows[4]
+                original_dob=original_rows[5]
+                original_category=original_rows[6]
+                original_religion=original_rows[7]
+                original_caste=original_rows[8]
+                original_f_language=original_rows[9]
+                original_father=original_rows[10]
+                original_mother=original_rows[11]
+                original_phone=original_rows[12]
+                original_email=original_rows[13]
+                
+               
+                if new_name==original_name and new_name: # Name same , no need to upadte
                     pass
                 else: # Updates
+                    
                     query="UPDATE STUDENT SET NAME=? WHERE ADMISSION_NO=?"
                     self.cur.execute(query,(new_name,new_ad_no,))
                 
+                if new_uid==original_uid and new_uid: # UID
+                    pass
+                else: # Updates
+                    query="UPDATE STUDENT SET UID=? WHERE ADMISSION_NO=?"
+                    self.cur.execute(query,(new_uid,new_ad_no,))
                     
+                if new_gender==original_gender and new_gender: # gender
+                    pass
+                else: # Updates
+                    query="UPDATE STUDENT SET GENDER=? WHERE ADMISSION_NO=?"
+                    self.cur.execute(query,(new_gender,new_ad_no,))
+                    
+                if new_dob==original_dob and new_dob: # dob
+                    pass
+                    
+                else: # Updates
+                    query="UPDATE STUDENT SET DOB=? WHERE ADMISSION_NO=?"
+                    self.cur.execute(query,(new_dob,new_ad_no,))
+                    
+                if new_category==original_category and new_category: #category
+                    pass
+                else: # Updates
+                    query="UPDATE STUDENT SET CATEGORY=? WHERE ADMISSION_NO=?"
+                    self.cur.execute(query,(new_category,new_ad_no,))
+                    
+                if new_religion==original_religion and new_religion: # religion
+                    pass
+                else: # Updates
+                    query="UPDATE STUDENT SET RELIGION=? WHERE ADMISSION_NO=?"
+                    self.cur.execute(query,(new_religion,new_ad_no,))
+
+                if new_caste==original_caste and new_caste: #caste
+                    pass
+                else: # Updates
+                    query="UPDATE STUDENT SET CASTE=? WHERE ADMISSION_NO=?"
+                    self.cur.execute(query,(new_caste,new_ad_no,))
+                    
+                if new_f_language==original_f_language and new_f_language: # f_lanuage
+                    pass
+                else: # Updates
+                    query="UPDATE STUDENT SET FIRST_LANGUAGE=? WHERE ADMISSION_NO=?"
+                    self.cur.execute(query,(new_f_language,new_ad_no,))
+                    
+                    
+                if new_father==original_father and new_father: # father
+                    pass
+                else: # Updates
+                    query="UPDATE STUDENT SET FATHER=? WHERE ADMISSION_NO=?"
+                    self.cur.execute(query,(new_father,new_ad_no,))
+                    
+                if new_mother==original_mother and new_mother: #mother
+                    pass
+                else: # Updates
+                    query="UPDATE STUDENT SET MOTHER=? WHERE ADMISSION_NO=?"
+                    self.cur.execute(query,(new_mother,new_ad_no,))
+                    
+                    
+                if new_phone==original_phone and new_phone: #phone
+                    pass
+                else: # Updates
+                    query="UPDATE STUDENT SET PHONE=? WHERE ADMISSION_NO=?"
+                    self.cur.execute(query,(new_phone,new_ad_no,))
+                    
+                if new_email==original_email and new_email: # email
+                    pass
+                else: # Updates
+                    query="UPDATE STUDENT SET EMAIL=? WHERE ADMISSION_NO=?"
+                    self.cur.execute(query,(new_email,new_ad_no,))
+
+
+
+
+
+
+
                     
         self.con.commit()
         
@@ -1354,6 +1458,54 @@ class db_operations():
                 
                     
                     
+        self.con.commit()
+    def import_institution(self):
+        
+        query='SELECT * FROM INSTITUTION'
+        
+        self.cur2.execute(query)
+        result=self.cur2.fetchone()
+        if result:
+            new_name=result[0]
+            new_code=result[1]
+            new_deo=result[2]
+            new_email=result[3]
+            new_contact=result[4]
+        else:
+            return 0
+        
+        query="SELECT * FROM INSTITUTION"
+        self.cur.execute(query)
+        result=self.cur.fetchone()
+        
+        if result:
+            original_name=result[0]
+            original_code=result[1]
+            original_deo=result[2]
+            original_email=result[3]
+            original_contact=result[4]
+            
+        if new_name and original_name!=new_name:
+        
+            query="UPDATE INSTITUTION SET NAME=?"
+            self.cur.execute(query,(new_name,))
+            
+        if new_code and original_code!=new_code:
+            query="UPDATE INSTITUTION SET CODE=?"
+            self.cur.execute(query,(new_code,))
+        if new_deo and original_deo!=new_deo:
+            query="UPDATE INSTITUTION SET DEO=?"
+            self.cur.execute(query,(new_deo,))
+        if new_email and original_email!=new_email:
+            query="UPDATE INSTITUTION SET EMAIL=?"
+            self.cur.execute(query,(new_email,))
+        if new_contact and original_contact!=new_contact:
+            query="UPDATE INSTITUTION SET CONTACT=?"
+            self.cur.execute(query,(new_contact,))
+            
+                    
+            
+
         self.con.commit()
         
                 

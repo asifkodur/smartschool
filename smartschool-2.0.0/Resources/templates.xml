@@ -1,0 +1,31 @@
+
+
+<TEMPLATE NAME="PTA" ID="1">
+<BODY BGCOLOR="BLACK" TEXT="GREEN">
+<FONT TEXT="GREEN">
+<H2 ALIGN="CENTER">PTA MEETING</H2>
+<H3 ALIGN="CENTER">#SCHOOL#</H3>
+</FONT>
+<I>
+Dear Parent...........
+................
+.................
+</I>
+</BODY>
+</TEMPLATE>
+
+
+<TEMPLATE NAME="PERFFORMANCE" ID="2">
+<BODY BGCOLR="BLACK" TEXT="WHITE">
+<FONT TEXT="GREEN">
+<H2 ALIGN="CENTER">PTA MEETING</H2>
+<H3 ALIGN="CENTER">#SCHOOL#</H3>
+</FONT>
+<I>
+Dear Parent.
+22222..........
+................
+.................
+</I>
+</BODY>
+</TEMPLATE>

@@ -98,8 +98,8 @@ class help_window(wx.Dialog):
        
         
     def load_htmlpage(self):
-        self.html_left.LoadPage('Resources/help.html#basic')
-        self.html_right.LoadPage('Resources/help.html#basic')
+        self.html_left.LoadPage('docs/docs.html')
+        self.html_right.LoadPage('docs/docs.html')
         
     def OnLinkClicked(self):
         print "linl"

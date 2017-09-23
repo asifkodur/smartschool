@@ -9,6 +9,7 @@ sudo pip install --upgrade --pre -f http://wxpython.org/Phoenix/snapshot-builds/
 
 
 Instal pyoo
+BeautifulSoup
 
 
 

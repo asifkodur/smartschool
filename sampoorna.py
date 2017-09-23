@@ -3,11 +3,12 @@ import requests
 import operator
 from lxml import html
 import string
-from requests.exceptions import ConnectionError
+from requests.exceptions import ConnectionError,HTTPError,Timeout#, RateLimitExceeded
 import sys
 reload(sys)
 sys.setdefaultencoding("utf-8")
 from dboperations import db_operations
+
 
 
 
@@ -19,7 +20,6 @@ from dboperations import db_operations
 class sampoorna_reports():
     # Updates the database in sync with sampoorna
     def __init__(self):
-        
         
         self.report_name=""
         self.session_request = requests.session()
@@ -37,13 +37,13 @@ class sampoorna_reports():
         link=xml[newpos2+1:newpos3]   
         
         
-        link="https://sampoorna.itschool.gov.in"+link
+        link="https://sampoorna.itschool.gov.in:446"+link
         return link
 
     def get_report_index_page(self):# old get_xml
 
         # this function loads the sampoorna page that shows the list of all the custom reports
-        url='https://sampoorna.itschool.gov.in/'+self.school_code+'/reports/index/student'
+        url='https://sampoorna.itschool.gov.in:446/'+self.school_code+'/reports/index/student'
 
         result = self.session_request.get(url)
 
@@ -56,7 +56,7 @@ class sampoorna_reports():
         pos=xml.find(self.report_name)# checking if report already exists
         
         if (pos==-1):
-            print " no report named",self.report_name
+            
             return [True]
             
         else:
@@ -82,7 +82,6 @@ class sampoorna_reports():
         # Receives links to pages of a single report extended over multiple pages
         
         # Open & Clsoe to solve data type errors
-
         result=self.session_request.get(link)
         f=open("/tmp/.output.html",'wb')
 
@@ -100,7 +99,7 @@ class sampoorna_reports():
         
         
         # before creating new report name check if rportpage if the name is unique, if not delete that report
-        url='https://sampoorna.itschool.gov.in/'+self.school_code+'/reports/generate/student'
+        url='https://sampoorna.itschool.gov.in:446/'+self.school_code+'/reports/generate/student'
         headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36'}
         
         report_field='course'
@@ -252,16 +251,12 @@ class sampoorna_reports():
         
         
 
-        url="https://sampoorna.itschool.gov.in/"
+        url="https://sampoorna.itschool.gov.in:446/"
         headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36'}
         
-
-
-
-
         
         try:
-            result = self.session_request.get(url)
+            result = self.session_request.get(url,timeout=10)
                         
             tree = html.fromstring(result.text)
             self.token = list(set(tree.xpath("//input[@name='authenticity_token']/@value")))[0]
@@ -273,15 +268,33 @@ class sampoorna_reports():
                 data = login_data, 
                 #headers = dict(referer=url)
                 headers = headers)
+            #print "status code",result.status_code
             check=self.check_login(result.text)
             if check[0]:
                 self.school_code= result.url.split('/')[3]
                 return [True]
             return check # return [False, "Error details"]
             
-        except ConnectionError as e:    # This is the correct syntax
+        except (HTTPError, ConnectionError, Timeout) as e:
+            
+            if str(e) == "403 Client Error: Forbidden":
+                #lg.warning("praw_call(): 403 forbidden")
+                
+                return False,str(e)
+            if str(e) == "404 Client Error: Not Found":
+                #lg.warning("praw_call(): 404 not found")
+                return False,str(e)
+            else:
+                return False,str(e)
+
+        except Exception as e:
+            return False, str(e)
+        '''
+        except requests.exceptions.ConnectionError as e:
+               print format(e)
                return False, "Check your Internet Connection"
                r = "No response"
+        '''
     def check_login(self,text):
         
         if text.find("Invalid username")==-1:

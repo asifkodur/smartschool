@@ -12,6 +12,12 @@ class About(wx.Dialog):
         self.ShowMe()
         self.Centre()
         
+    def get_version(self):
+        dir = os.path.split(sys.argv[0])[0]
+        version_file_path=dir+"/current_version"
+        with open(version_file_path, 'r') as f:
+            return f.readline()
+        
     def ShowMe(self):
         licence=""
         cur_dir=os.path.dirname(os.path.abspath((sys.argv[0])))
@@ -31,7 +37,7 @@ class About(wx.Dialog):
             
             info.SetIcon(wx.Icon(path, wx.BITMAP_TYPE_JPEG))
         info.SetName('Smart School')
-        info.SetVersion('2.0')
+        info.SetVersion(str(self.get_version()))
         info.SetDescription(description)
         info.SetCopyright('Copy Left')
         info.SetWebSite('asif.kodur@gmail.com')
@@ -51,5 +57,6 @@ if __name__ == "__main__":
     wx.InitAllImageHandlers()
     main_frame = About(None, wx.ID_ANY, "")
     app.SetTopWindow(main_frame)
-    main_frame.Show()
+    main_frame.ShowModal()
+    main_frame.Destroy()
     app.MainLoop()

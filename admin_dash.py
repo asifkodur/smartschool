@@ -18,6 +18,7 @@ from about import About
 from custom_report  import custom_report
 from sampoorna_gui import sampoorna_win
 import gettext
+from software_updation import update_win
 from student_profile import student_profile
 dir = os.path.split(sys.argv[0])[0]
 path=dir+'/Resources/img/'
@@ -46,9 +47,7 @@ class admin_dash_b(wx.Frame):
         self.button_consolidated = wx.BitmapButton(self.panel_1, -1, wx.Bitmap(path+"consolidated.jpg", wx.BITMAP_TYPE_ANY))
         self.label_consolidated = wx.StaticText(self.panel_1, -1, "Custom Reports")
         self.button_promo = wx.BitmapButton(self.panel_1, -1, wx.Bitmap(path+"promotion.jpg", wx.BITMAP_TYPE_ANY))
-        self.label_promo = wx.StaticText(self.panel_1, -1, "Promotion List")
-        self.button_remove = wx.BitmapButton(self.panel_1, -1, wx.Bitmap(path+"delete.jpg", wx.BITMAP_TYPE_ANY))
-        self.label_remove = wx.StaticText(self.panel_1, -1, "Remove Student")
+        self.label_promo = wx.StaticText(self.panel_1, -1, "Promotion List")        
         self.button_promote = wx.BitmapButton(self.panel_1, -1, wx.Bitmap(path+"promote.jpg", wx.BITMAP_TYPE_ANY))
         self.label_promote = wx.StaticText(self.panel_1, -1, "Promote/Change Class")
         self.button_import_db = wx.BitmapButton(self.panel_1, -1, wx.Bitmap(path+"import.jpg", wx.BITMAP_TYPE_ANY))
@@ -65,6 +64,9 @@ class admin_dash_b(wx.Frame):
         
         self.button_help = wx.BitmapButton(self.panel_1, -1, wx.Bitmap(path+"help.jpg", wx.BITMAP_TYPE_ANY))
         self.label_help = wx.StaticText(self.panel_1, -1, "Help")
+        #soft updt
+        self.button_remove = wx.BitmapButton(self.panel_1, -1, wx.Bitmap(path+"delete.jpg", wx.BITMAP_TYPE_ANY))
+        self.label_remove = wx.StaticText(self.panel_1, -1, "Software Update")
         
         self.button_exit = wx.BitmapButton(self.panel_1, -1, wx.Bitmap(path+"exit.jpg", wx.BITMAP_TYPE_ANY))
         self.label_exit = wx.StaticText(self.panel_1, -1, "Exit")
@@ -479,10 +481,16 @@ class admin_dash_b(wx.Frame):
         event.Skip()
 
     def on_remove(self, event):  # wxGlade: admin_dash.<event_handler>
-        delete=delete_student(self)
+        '''delete=delete_student(self)
         delete.ShowModal()
         self.label_remove.SetForegroundColour(self.label_fg_color)
-        delete.Destroy()
+        delete.Destroy()'''
+        soft_upd=update_win(self)
+        soft_upd.ShowModal()
+        try:
+            soft_upd.Destroy()
+        except:
+            pass
         event.Skip()
 
     def on_promote(self, event):  # wxGlade: admin_dash.<event_handler>
@@ -610,7 +618,7 @@ class admin_dash_b(wx.Frame):
         passw.Destroy()
         event.Skip()
     def on_help(self,event):
-        subprocess.call(["xdg-open",dir+'/Resources/help.html'])
+        subprocess.call(["xdg-open",dir+'/docs/docs.html'])
         self.label_help.SetForegroundColour(self.label_fg_color)
     def on_about(self, event):  # wxGlade: admin_dash.<event_handler>
         ab=About(self)

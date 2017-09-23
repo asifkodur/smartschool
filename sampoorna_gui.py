@@ -20,6 +20,8 @@ from wx.lib.pubsub import Publisher
 
 from sampoorna import  sampoorna_reports,insert_to_db
 import gettext
+
+
 # end wxGlade
 
 # begin wxGlade: extracode
@@ -73,8 +75,15 @@ class sampoorna_thread(Thread):
             
                 wx.CallAfter(Publisher().sendMessage, "update","Preparing for dowloading data for Standard "+str(each_class))
                 SM.make_report_name(each_class)
-                SM.delete_report()
-                SM.create_report()
+                    
+                if not (SM.delete_report()[0]):
+                    wx.CallAfter(Publisher().sendMessage, "update","Cannot delete report in sampoorna. Aborting...")
+                    return
+                if not (SM.create_report()[0]):
+                    wx.CallAfter(Publisher().sendMessage, "update","Cannot create new report in sampoorna. Aborting...")
+                    return
+                
+                
                 
                 first_page_link= SM.get_show_report_link()
                 progress_value+=(10/len(self.classes))
@@ -162,6 +171,7 @@ class sampoorna_thread(Thread):
              
             
             wx.CallAfter(Publisher().sendMessage, "update", login[1])
+            return 0
      
         wx.CallAfter(Publisher().sendMessage, "report", self.REPORT)
                 
@@ -193,11 +203,11 @@ class sampoorna_win(wx.Dialog):
         self.report_pane = wx.Panel(self.notebook_1, wx.ID_ANY)
         self.panel_2 = wx.Panel(self.report_pane, wx.ID_ANY)
         self.label_7 = wx.StaticText(self.panel_2, wx.ID_ANY, _("Progress"))
-        self.progresss_total = wx.TextCtrl(self.panel_2, wx.ID_ANY, "")
-        self.progress_each = wx.TextCtrl(self.panel_2, wx.ID_ANY, "")
+        self.progresss_total = wx.Gauge(self.panel_2, wx.ID_ANY, range=100)
+        self.progress_each =wx.StaticText(self.panel_2, wx.ID_ANY)# wx.TextCtrl(self.panel_2, wx.ID_ANY, "", style=wx.TE_READONLY)
         self.label_satus = wx.StaticText(self.panel_2, wx.ID_ANY, _("Status"))
         self.text_ctrl_report = wx.TextCtrl(self.panel_2, wx.ID_ANY, "", style=wx.TE_MULTILINE | wx.TE_READONLY | wx.HSCROLL | wx.NO_BORDER)
-        self.button_finished = wx.Button(self.panel_2, wx.ID_ANY, _("Finished"))
+        self.button_finished = wx.Button(self.panel_2, wx.ID_ANY, _("Abort"))
 
         self.__set_properties()
         self.__do_layout()
@@ -236,6 +246,8 @@ class sampoorna_win(wx.Dialog):
         self.text_ctrl_user.SetMinSize((250, 35))
         self.label_4.SetForegroundColour(wx.Colour(255, 255, 255))
         self.label_4.SetFont(wx.Font(11, wx.DEFAULT, wx.ITALIC, wx.BOLD, 0, ""))
+        self.progress_each.SetFont(wx.Font(11, wx.DEFAULT, wx.ITALIC, wx.BOLD, 0, ""))
+        self.progress_each.SetForegroundColour(wx.Colour(255, 255, 255))
         self.text_ctrl_passw.SetMinSize((250,35))
         self.panel_1.SetBackgroundColour(wx.Colour(47, 47, 47))
         self.button_next.SetMinSize((100, 35))
@@ -435,8 +447,12 @@ class sampoorna_win(wx.Dialog):
         #self.list_ctrl_1.Append(str(data))
         if msg.data=="Invalid Username Password combination":
             self.button_finished.SetLabel("Close")
-            self.label_1.SetForegroundColour(wx.Colour(204, 50, 50))
+            self.text_ctrl_report.SetForegroundColour(wx.Colour(204, 50, 50))
             self.text_ctrl_report.Value=msg.data
+        else: #some error
+            self.text_ctrl_report.SetForegroundColour(wx.Colour(204, 50, 50))
+            self.text_ctrl_report.Value=msg.data
+
 
     def final_report(self,msg):
         # rceives from thread
@@ -454,8 +470,9 @@ class sampoorna_win(wx.Dialog):
         self.button_finished.Show()
         
     def update_progress_bar(self,msg):
+        print "progress bar ",msg.data
         self.progresss_total.SetValue(msg.data)
-        self.label_progress_perc.SetLabel(str(msg.data)+'%')
+        self.progress_each.SetLabel(str(msg.data)+'%')
         if msg.data=="Invalid Username Password combination":
             self.button_finished.SetLabel("Close")
     def update_current_class(self,msg):
@@ -470,5 +487,7 @@ if __name__ == "__main__":
     wx.InitAllImageHandlers()
     main_frame = sampoorna_win(None, wx.ID_ANY, "")
     app.SetTopWindow(main_frame)
-    main_frame.Show()
+    main_frame.ShowModal()
+    main_frame.Destroy()
     app.MainLoop()
+    

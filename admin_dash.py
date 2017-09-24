@@ -65,7 +65,7 @@ class admin_dash_b(wx.Frame):
         self.button_help = wx.BitmapButton(self.panel_1, -1, wx.Bitmap(path+"help.jpg", wx.BITMAP_TYPE_ANY))
         self.label_help = wx.StaticText(self.panel_1, -1, "Help")
         #soft updt
-        self.button_remove = wx.BitmapButton(self.panel_1, -1, wx.Bitmap(path+"delete.jpg", wx.BITMAP_TYPE_ANY))
+        self.button_remove = wx.BitmapButton(self.panel_1, -1, wx.Bitmap(path+"update.jpg", wx.BITMAP_TYPE_ANY))
         self.label_remove = wx.StaticText(self.panel_1, -1, "Software Update")
         
         self.button_exit = wx.BitmapButton(self.panel_1, -1, wx.Bitmap(path+"exit.jpg", wx.BITMAP_TYPE_ANY))
@@ -97,7 +97,7 @@ class admin_dash_b(wx.Frame):
         self.Bind(wx.EVT_BUTTON, self.on_entry, self.button_mark)
         self.Bind(wx.EVT_BUTTON, self.on_custom, self.button_consolidated)
         self.Bind(wx.EVT_BUTTON, self.on_promotion, self.button_promo)
-        self.Bind(wx.EVT_BUTTON, self.on_remove, self.button_remove)
+        self.Bind(wx.EVT_BUTTON, self.on_software_update, self.button_remove)
         self.Bind(wx.EVT_BUTTON, self.on_promote, self.button_promote)
         self.Bind(wx.EVT_BUTTON, self.on_import_db, self.button_import_db)
         self.Bind(wx.EVT_BUTTON, self.on_import_excel, self.button_import_excel)
@@ -332,9 +332,7 @@ class admin_dash_b(wx.Frame):
         sizer_12.Add(self.label_promo, 0, wx.TOP | wx.ALIGN_CENTER_HORIZONTAL, 5)
         grid_sizer_1.Add(sizer_12, 1, wx.EXPAND, 0)
         
-        sizer_13.Add(self.button_remove, 0, wx.ALIGN_CENTER_HORIZONTAL, 0)
-        sizer_13.Add(self.label_remove, 0, wx.TOP | wx.ALIGN_CENTER_HORIZONTAL, 5)
-        grid_sizer_1.Add(sizer_13, 1, wx.EXPAND, 0)
+        
         
         sizer_14.Add(self.button_promote, 0, wx.ALIGN_CENTER_HORIZONTAL, 0)
         sizer_14.Add(self.label_promote, 0, wx.TOP | wx.ALIGN_CENTER_HORIZONTAL, 5)
@@ -374,6 +372,8 @@ class admin_dash_b(wx.Frame):
         sizer_24.Add(self.label_sms, 0, wx.TOP | wx.ALIGN_CENTER_HORIZONTAL, 5)
         grid_sizer_1.Add(sizer_24, 1, wx.EXPAND, 0)
         
+       
+        
         sizer_20.Add(self.button_help, 0, wx.ALIGN_CENTER_HORIZONTAL, 0)
         sizer_20.Add(self.label_help, 0, wx.TOP | wx.ALIGN_CENTER_HORIZONTAL, 5)
         grid_sizer_1.Add(sizer_20, 1, wx.EXPAND, 0)
@@ -381,6 +381,12 @@ class admin_dash_b(wx.Frame):
         sizer_21.Add(self.button_about, 0, wx.ALIGN_CENTER_HORIZONTAL, 0)
         sizer_21.Add(self.label_about, 0, wx.TOP | wx.ALIGN_CENTER_HORIZONTAL, 5)
         grid_sizer_1.Add(sizer_21, 1, wx.EXPAND, 0)
+        
+        
+        
+        sizer_13.Add(self.button_remove, 0, wx.ALIGN_CENTER_HORIZONTAL, 0)
+        sizer_13.Add(self.label_remove, 0, wx.TOP | wx.ALIGN_CENTER_HORIZONTAL, 5)
+        grid_sizer_1.Add(sizer_13, 1, wx.EXPAND, 0)
         
         
         
@@ -480,7 +486,7 @@ class admin_dash_b(wx.Frame):
                 os.system("nautilus "+path)
         event.Skip()
 
-    def on_remove(self, event):  # wxGlade: admin_dash.<event_handler>
+    def on_software_update(self, event):  # wxGlade: admin_dash.<event_handler>
         '''delete=delete_student(self)
         delete.ShowModal()
         self.label_remove.SetForegroundColour(self.label_fg_color)
@@ -491,6 +497,7 @@ class admin_dash_b(wx.Frame):
             soft_upd.Destroy()
         except:
             pass
+        self.label_remove.SetForegroundColour(self.label_fg_color)
         event.Skip()
 
     def on_promote(self, event):  # wxGlade: admin_dash.<event_handler>
@@ -810,7 +817,7 @@ class admin_dash_b(wx.Frame):
         event.Skip()
 # end of class admin_dash
 
-
+'''
 
 if __name__ == "__main__":
     gettext.install("app") # replace with the appropriate catalog name
@@ -820,4 +827,5 @@ if __name__ == "__main__":
     main_frame = admin_dash_b(None, wx.ID_ANY, "")
     app.SetTopWindow(main_frame)
     main_frame.Show()
-    app.MainLoop()
+    app.MainLoop
+    '''

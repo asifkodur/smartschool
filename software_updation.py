@@ -504,7 +504,9 @@ class update_win(wx.Dialog):
         if self.animation_panel.gif:
             self.animation_panel.gif.Stop()
             self.animation_panel.gif.Destroy()
-        image="Resources/spinner.gif"
+        
+        dir = os.path.split(sys.argv[0])[0]
+        image=dir+"/Resources/spinner.gif"
         pos1=self.animation_panel.GetPosition()
         self.animation_panel.gif = wx.animate.GIFAnimationCtrl(self, -1, image,pos=(pos1[0]-20,pos1[1]-40),size=(5,5))
         self.animation_panel.gif.GetPlayer()

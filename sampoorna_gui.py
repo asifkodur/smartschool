@@ -185,29 +185,29 @@ class sampoorna_win(wx.Dialog):
         self.notebook_1 = wx.Notebook(self, wx.ID_ANY, style=0)
         self.login_pane = wx.Panel(self.notebook_1, wx.ID_ANY)
         self.panel_login = wx.Panel(self.login_pane, wx.ID_ANY)
-        self.label_1 = wx.StaticText(self.panel_login, wx.ID_ANY, _("Warning: Always backup your database before you proceed to avoid potential data loss !!!"))
-        self.label_2 = wx.StaticText(self.panel_login, wx.ID_ANY, _("This software does not save Sampoorna username or password. It is used for one time login"))
+        self.label_1 = wx.StaticText(self.panel_login, wx.ID_ANY, ("Warning: Always backup your database before you proceed to avoid potential data loss !!!"))
+        self.label_2 = wx.StaticText(self.panel_login, wx.ID_ANY, ("This software does not save Sampoorna username or password. It is used for one time login"))
         self.panel_1 = wx.Panel(self.panel_login, wx.ID_ANY, style=wx.SUNKEN_BORDER | wx.RAISED_BORDER | wx.TAB_TRAVERSAL)
-        self.label_3 = wx.StaticText(self.panel_1, wx.ID_ANY, _("Sampoorna Username"))
+        self.label_3 = wx.StaticText(self.panel_1, wx.ID_ANY, ("Sampoorna Username"))
         self.text_ctrl_user = wx.TextCtrl(self.panel_1, wx.ID_ANY, "", style=wx.TE_PROCESS_ENTER | wx.NO_BORDER)
-        self.label_4 = wx.StaticText(self.panel_1, wx.ID_ANY, _("Sampoorna Password"))
+        self.label_4 = wx.StaticText(self.panel_1, wx.ID_ANY, ("Sampoorna Password"))
         self.text_ctrl_passw = wx.TextCtrl(self.panel_1, wx.ID_ANY, "", style=wx.TE_PROCESS_ENTER | wx.TE_PASSWORD | wx.NO_BORDER)
-        self.button_next = wx.Button(self.panel_login, wx.ID_ANY, _("Next >>"))
+        self.button_next = wx.Button(self.panel_login, wx.ID_ANY, ("Next >>"))
         self.standard_pane = wx.Panel(self.notebook_1, wx.ID_ANY)
         self.panel_3 = wx.Panel(self.standard_pane, wx.ID_ANY, style=wx.SUNKEN_BORDER | wx.RAISED_BORDER | wx.STATIC_BORDER | wx.TAB_TRAVERSAL)
-        self.checkbox_8 = wx.CheckBox(self.panel_3, wx.ID_ANY, _("8 Standard"))
-        self.checkbox_9 = wx.CheckBox(self.panel_3, wx.ID_ANY, _("9 Standard"))
-        self.checkbox_10 = wx.CheckBox(self.panel_3, wx.ID_ANY, _("10 Standard"))
-        self.button_previous = wx.Button(self.standard_pane, wx.ID_ANY, _("<<Previous"))
-        self.button_proceed = wx.Button(self.standard_pane, wx.ID_ANY, _("Proceed >>"))
+        self.checkbox_8 = wx.CheckBox(self.panel_3, wx.ID_ANY, ("8 Standard"))
+        self.checkbox_9 = wx.CheckBox(self.panel_3, wx.ID_ANY, ("9 Standard"))
+        self.checkbox_10 = wx.CheckBox(self.panel_3, wx.ID_ANY, ("10 Standard"))
+        self.button_previous = wx.Button(self.standard_pane, wx.ID_ANY, ("<<Previous"))
+        self.button_proceed = wx.Button(self.standard_pane, wx.ID_ANY, ("Proceed >>"))
         self.report_pane = wx.Panel(self.notebook_1, wx.ID_ANY)
         self.panel_2 = wx.Panel(self.report_pane, wx.ID_ANY)
-        self.label_7 = wx.StaticText(self.panel_2, wx.ID_ANY, _("Progress"))
+        self.label_7 = wx.StaticText(self.panel_2, wx.ID_ANY, ("Progress"))
         self.progresss_total = wx.Gauge(self.panel_2, wx.ID_ANY, range=100)
         self.progress_each =wx.StaticText(self.panel_2, wx.ID_ANY)# wx.TextCtrl(self.panel_2, wx.ID_ANY, "", style=wx.TE_READONLY)
-        self.label_satus = wx.StaticText(self.panel_2, wx.ID_ANY, _("Status"))
+        self.label_satus = wx.StaticText(self.panel_2, wx.ID_ANY, ("Status"))
         self.text_ctrl_report = wx.TextCtrl(self.panel_2, wx.ID_ANY, "", style=wx.TE_MULTILINE | wx.TE_READONLY | wx.HSCROLL | wx.NO_BORDER)
-        self.button_finished = wx.Button(self.panel_2, wx.ID_ANY, _("Abort"))
+        self.button_finished = wx.Button(self.panel_2, wx.ID_ANY, ("Abort"))
 
         self.__set_properties()
         self.__do_layout()
@@ -232,7 +232,7 @@ class sampoorna_win(wx.Dialog):
 
     def __set_properties(self):
         # begin wxGlade: sampoorna_win.__set_properties
-        self.SetTitle(_("Import from Sampoorna"))
+        self.SetTitle(("Import from Sampoorna"))
         self.SetSize((894, 640))
         self.SetBackgroundColour(wx.Colour(47, 47, 47))
         self.label_1.SetBackgroundColour(wx.Colour(47, 47, 47))
@@ -351,9 +351,9 @@ class sampoorna_win(wx.Dialog):
         self.panel_2.SetSizer(sizer_10)
         sizer_13.Add(self.panel_2, 1, wx.ALL | wx.EXPAND | wx.ALIGN_CENTER_HORIZONTAL | wx.ALIGN_CENTER_VERTICAL, 20)
         self.report_pane.SetSizer(sizer_13)
-        self.notebook_1.AddPage(self.login_pane, _("Login"))
-        self.notebook_1.AddPage(self.standard_pane, _("Select Standards"))
-        self.notebook_1.AddPage(self.report_pane, _("Reports"))
+        self.notebook_1.AddPage(self.login_pane, ("Login"))
+        self.notebook_1.AddPage(self.standard_pane, ("Select Standards"))
+        self.notebook_1.AddPage(self.report_pane, ("Reports"))
         sizer_4.Add(self.notebook_1, 1, wx.EXPAND, 0)
         self.SetSizer(sizer_4)
         self.Layout()
@@ -479,6 +479,8 @@ class sampoorna_win(wx.Dialog):
         
         self.text_ctrl_report.Value="\n**********\nCurrently Processing\n Standard "+msg.data+"\n**********"+self.text_ctrl_report.Value
     
+    
+'''
 # end of class sampoorna_win
 if __name__ == "__main__":
     gettext.install("app") # replace with the appropriate catalog name
@@ -490,4 +492,6 @@ if __name__ == "__main__":
     main_frame.ShowModal()
     main_frame.Destroy()
     app.MainLoop()
+    
+'''
     

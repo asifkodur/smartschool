@@ -127,7 +127,7 @@ class login(wx.Frame):
 
     def __set_properties(self):
         # begin wxGlade: sms_dialoge.__set_properties
-        self.SetTitle(("Login            SmartSchool"))
+        self.SetTitle(("Login"))
         
         self.SetBackgroundColour(THEME.WINDOW_BG_COLOR)
         
@@ -248,6 +248,9 @@ class login(wx.Frame):
         except:
             pass
         event.Skip()
+        
+        
+'''
 
 # end of class sms_dialoge
 if __name__ == "__main__":
@@ -258,4 +261,6 @@ if __name__ == "__main__":
     frame_1 = login(None, wx.ID_ANY, "")
     app.SetTopWindow(frame_1)
     frame_1.Show()
+    
+'''
     app.MainLoop()

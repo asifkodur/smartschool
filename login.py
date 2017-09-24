@@ -262,5 +262,7 @@ if __name__ == "__main__":
     app.SetTopWindow(frame_1)
     frame_1.Show()
     
-'''
+
     app.MainLoop()
+    
+'''

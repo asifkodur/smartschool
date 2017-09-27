@@ -21,19 +21,19 @@ class institution(wx.Dialog):
         # begin wxGlade: institution.__init__
         kwds["style"] = wx.CAPTION | wx.RESIZE_BORDER |wx.MINIMIZE_BOX| wx.CLOSE_BOX | wx.MAXIMIZE_BOX | wx.THICK_FRAME|wx.CAPTION | wx.MAXIMIZE| wx.MINIMIZE_BOX
         wx.Dialog.__init__(self, *args, **kwds)
-        self.label_1 = wx.StaticText(self, wx.ID_ANY, _("Institution Details"))
-        self.label_2 = wx.StaticText(self, wx.ID_ANY, _("School Name"))
+        self.label_1 = wx.StaticText(self, wx.ID_ANY, ("Institution Details"))
+        self.label_2 = wx.StaticText(self, wx.ID_ANY, ("School Name"))
         self.text_ctrl_name = wx.TextCtrl(self, wx.ID_ANY, "")
-        self.label_3 = wx.StaticText(self, wx.ID_ANY, _("School Code"))
+        self.label_3 = wx.StaticText(self, wx.ID_ANY, ("School Code"))
         self.text_ctrl_code = wx.TextCtrl(self, wx.ID_ANY, "")
-        self.label_4 = wx.StaticText(self, wx.ID_ANY, _("Email"))
+        self.label_4 = wx.StaticText(self, wx.ID_ANY, ("Email"))
         self.text_ctrl_email = wx.TextCtrl(self, wx.ID_ANY, "")
-        self.label_5 = wx.StaticText(self, wx.ID_ANY, _("Phone"))
+        self.label_5 = wx.StaticText(self, wx.ID_ANY, ("Phone"))
         self.text_ctrl_phone = wx.TextCtrl(self, wx.ID_ANY, "")
-        self.label_6 = wx.StaticText(self, wx.ID_ANY, _("DEO"))
+        self.label_6 = wx.StaticText(self, wx.ID_ANY, ("DEO"))
         self.text_ctrl_deo = wx.TextCtrl(self, wx.ID_ANY, "")
-        self.button_cancel = wx.Button(self, wx.ID_ANY, _("Cancel"))
-        self.button_save = wx.Button(self, wx.ID_ANY, _("Save"))
+        self.button_cancel = wx.Button(self, wx.ID_ANY, ("Cancel"))
+        self.button_save = wx.Button(self, wx.ID_ANY, ("Save"))
 
 
         self.DB=db_operations()
@@ -48,7 +48,7 @@ class institution(wx.Dialog):
     def __set_properties(self):
         # begin wxGlade: institution.__set_properties
         self.SetBackgroundColour(THEME.WINDOW_BG_COLOR)
-        self.SetTitle(_("Institution Settings"))
+        self.SetTitle(("Institution Settings"))
         self.SetSize((665, 628))
         self.text_ctrl_name.SetMinSize((300, 30))
         self.text_ctrl_code.SetMinSize((300, 30))

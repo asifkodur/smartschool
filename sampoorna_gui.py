@@ -140,7 +140,7 @@ class sampoorna_thread(Thread):
                 progress_value+=(10/len(self.classes))
                 
                 wx.CallAfter(Publisher().sendMessage, "progress_bar",progress_value)
-                wx.CallAfter(Publisher().sendMessage, "update","Standard "+str(each_class)+":-Almost Finishes")
+                wx.CallAfter(Publisher().sendMessage, "update","Standard "+str(each_class)+":-Almost Finished")
                 
                 if self.stopped:
                     wx.CallAfter(Publisher().sendMessage, "update","Aborted")

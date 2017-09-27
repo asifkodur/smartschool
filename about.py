@@ -40,7 +40,7 @@ class About(wx.Dialog):
         info.SetVersion(str(self.get_version()))
         info.SetDescription(description)
         info.SetCopyright('Copy Left')
-        info.SetWebSite('asif.kodur@gmail.com')
+        info.SetWebSite('https://asifkodur.github.io/smartschool/')
         info.SetLicence(licence)
         info.AddDeveloper('Muhammed Asif Kodur\nGHSS Vythiri\nemail:<asif.kodur@gmail.com>')
         #info.AddDeveloper('\n\nGratitude to\nMaths Blog<http://mathematicsschool.blogspot.in/>')

@@ -576,6 +576,8 @@ class update_win(wx.Dialog):
         
         event.Skip()
         
+'''
+        
 # end of class update_win
 if __name__ == "__main__":
     gettext.install("app") # replace with the appropriate catalog name
@@ -587,3 +589,5 @@ if __name__ == "__main__":
     update_window.ShowModal()
     update_window.Destroy()
     app.MainLoop()
+    
+'''

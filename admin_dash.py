@@ -815,17 +815,17 @@ class admin_dash_b(wx.Frame):
         if self.Parent:
             self.Parent.Close(True)
         event.Skip()
-# end of class admin_dash
+    # end of class admin_dash
 
-'''
+
 
 if __name__ == "__main__":
+    
     gettext.install("app") # replace with the appropriate catalog name
-
+    
     app = wx.PySimpleApp(0)
     wx.InitAllImageHandlers()
     main_frame = admin_dash_b(None, wx.ID_ANY, "")
     app.SetTopWindow(main_frame)
     main_frame.Show()
     app.MainLoop
-    '''

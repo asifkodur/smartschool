@@ -470,7 +470,6 @@ class sampoorna_win(wx.Dialog):
         self.button_finished.Show()
         
     def update_progress_bar(self,msg):
-        print "progress bar ",msg.data
         self.progresss_total.SetValue(msg.data)
         self.progress_each.SetLabel(str(msg.data)+'%')
         if msg.data=="Invalid Username Password combination":
@@ -480,7 +479,7 @@ class sampoorna_win(wx.Dialog):
         self.text_ctrl_report.Value="\n**********\nCurrently Processing\n Standard "+msg.data+"\n**********"+self.text_ctrl_report.Value
     
     
-'''
+
 # end of class sampoorna_win
 if __name__ == "__main__":
     gettext.install("app") # replace with the appropriate catalog name
@@ -493,5 +492,5 @@ if __name__ == "__main__":
     main_frame.Destroy()
     app.MainLoop()
     
-'''
+
     

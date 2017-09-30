@@ -38,64 +38,38 @@ class db_operations():
         self.cur.executescript(sql)
         '''
     def CreateTables(self):
-
-        # DIV TABLE
-        q="CREATE TABLE DIV(ID INTEGER PRIMARY KEY   AUTOINCREMENT,YEAR  TEX NOT NULL,CLASS   TEXT "
-        q+="NOT NULL,DIV TEXT NOT NULL)"
-        self.cur.execute(q)
-        self.con.commit()
-
-        # STUDENT TABLE
-        q="CREATE TABLE STUDENT(ID INTEGER PRIMARY KEY   AUTOINCREMENT,ADMISSION_NO  TEXT NOT NULL,NAME   TEXT  NOT NULL)"
-
-        self.cur.execute(q)
-        self.con.commit()
-        # Score tables
-        query="(ID INTEGER PRIMARY KEY   AUTOINCREMENT, STUDENT_ID INTEGER,DIV_ID INTEGER, ROLL TEXT,"
-
-        query+="LANG_CE INT,LANG_MAX_CE INT,LANG_TE INT,LANG_MAX_TE INT,"
-
-        query+="MAL_CE INT,MAL_MAX_CE INT,MAL_TE INT, MAL_MAX_TE INT,"
-
-        query+="ENGLISH_CE INT,ENGLISH_MAX_CE INT,ENGLISH_TE INT,ENGLISH_MAX_TE INT,"
-
-        query+="HINDI_CE INT,HINDI_MAX_CE INT,HINDI_TE	INT,HINDI_MAX_TE	INT,"
-
-        query+="SS_CE INT,SS_MAX_CE INT,SS_TE INT,SS_MAX_TE INT,"
-
-        query+="PHYSICS_CE INT,PHYSICS_MAX_CE INT,PHYSICS_TE INT,PHYSICS_MAX_TE INT,"
-
-        query+="CHEMISTRY_CE INT,CHEMISTRY_MAX_CE INT,CHEMISTRY_TE INT,CHEMISTRY_MAX_TE INT,"
-
-        query+="BIOLOGY_CE INT,BIOLOGY_MAX_CE INT,BIOLOGY_TE INT,BIOLOGY_MAX_TE INT,"
-
-        query+="MATHEMATICS_CE INT,MATHEMATICS_MAX_CE INT,MATHEMATICS_TE INT,MATHEMATICS_MAX_TE INT,"
-
-        query+="IT_CE INT,IT_MAX_CE INT,IT_TE INT,IT_MAX_TE INT,"
-
-        query+="ATTENDANCE INT,MAX_ATTENDANCE INT)"
-
-        t1="CREATE TABLE T1 "
-        t2="CREATE TABLE T2 "
-        t3="CREATE TABLE T3 "
+        
+        
+        #TABLES FILE HAS THE SCHEMA OF ALL TABLES
+        f=open("TABLES",'rb')
+        text=f.read()
+        #print text
+        self.cur.executescript(text)
+        #self.Execute(text)
+        self.Commit()
+        #self.import_('/home/ghssvythiri/Desktop/TABLES')
+        
+    def clear_db(self):
+        
+        self.Execute("DELETE FROM STUDENT")
+        self.Execute("DELETE FROM INSTITUTION")
+        self.Execute("DELETE FROM T1")
+        self.Execute("DELETE FROM T2")
+        self.Execute("DELETE FROM T3")
+        self.Execute("DELETE FROM DIV")
+        self.Execute("DELETE FROM CE_TE")
+        self.Execute("DELETE FROM WORKING_DAYS")
+        
+        self.Execute("UPDATE sqlite_sequence SET seq = 0 WHERE name = 'STUDENT'")
+        self.Execute("UPDATE sqlite_sequence SET seq = 0 WHERE name = 'T1'")
+        self.Execute("UPDATE sqlite_sequence SET seq = 0 WHERE name = 'T2'")
+        self.Execute("UPDATE sqlite_sequence SET seq = 0 WHERE name = 'T3'")
+        self.Execute("UPDATE sqlite_sequence SET seq = 0 WHERE name = 'DIV'")
+        self.Execute("UPDATE sqlite_sequence SET seq = 0 WHERE name = 'CE_TE'")
+        self.Execute("UPDATE sqlite_sequence SET seq = 0 WHERE name = 'WORKING_DAYS'")
 
 
-
-        self.cur.execute(t1+ query)
-
-        self.con.commit()
-
-        self.cur.execute(t2+ query)
-
-        self.con.commit()
-
-        self.cur.execute(t3+ query)
-
-        self.con.commit
-
-
-
-
+        self.Commit()
 
     def InitialPopulation_Div(self):
 

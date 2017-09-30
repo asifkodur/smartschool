@@ -250,8 +250,6 @@ class login(wx.Frame):
         event.Skip()
         
         
-'''
-
 # end of class sms_dialoge
 if __name__ == "__main__":
     gettext.install("app") # replace with the appropriate catalog name
@@ -265,4 +263,3 @@ if __name__ == "__main__":
 
     app.MainLoop()
     
-'''

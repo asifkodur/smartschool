@@ -253,9 +253,9 @@ class MyGridForm(wx.Frame):
         kwds["style"] = wx.DEFAULT_FRAME_STYLE|wx.CAPTION|wx.CLOSE_BOX|wx.MINIMIZE_BOX|wx.MAXIMIZE_BOX|wx.MAXIMIZE#|wx.STAY_ON_TOP
         wx.Frame.__init__(self, *args, **kwds)        
         if STD=="8":
-            choice=["Select Subject","First Language", "Malayalam II", "English", "Hindi", "Social Science", "Basic Science", "Mathematics", "I.T","Attendance"]
+            choice=["Select Subject","First Language", "Malayalam II", "English", "Hindi", "Social Science", "Basic Science", "Mathematics", "I.T","Work Experience","Art Education","Physcal & Health Edu","Attendance"]
         else:
-            choice=["Select Subject","First Language", "Malayalam II", "English", "Hindi", "Social Science", "Physics", "Chemistry", "Biology", "Mathematics", "I.T","Attendance"]
+            choice=["Select Subject","First Language", "Malayalam II", "English", "Hindi", "Social Science", "Physics", "Chemistry", "Biology", "Mathematics", "I.T","Work Experience","Art Education","Physcal & Health Edu","Attendance"]
         self.combo_box_1 = wx.ComboBox(self, -1, choices=choice, style=wx.CB_DROPDOWN|wx.CB_DROPDOWN|wx.CB_READONLY)
         
         self.label_6 = wx.StaticText(self, -1, "Sorted By", style=wx.ALIGN_CENTRE)
@@ -263,7 +263,7 @@ class MyGridForm(wx.Frame):
         self.combo_box_2.Enabled=False
         self.grid_1 = wx.grid.Grid(self, -1, size=(1, 1))        
         self.button_1=wx.Button(self, -1, "Save")
-        self.button_2=wx.Button(self, -1, "Cancel")
+        self.button_2=wx.Button(self, -1, "Close")
         self.label_1 = wx.StaticText(self, -1, "Class: ")
         self.label_2 = wx.StaticText(self, -1, "Div: ")
         self.label_3 = wx.StaticText(self, -1, "Term: ")        
@@ -1285,12 +1285,31 @@ class MyGridForm(wx.Frame):
         elif self.combo_box_1.Value =="Attendance":
             
             self.SUBJECT_INDEX=10
-            
+            print self.SUBJECT_INDEX
         elif self.combo_box_1.Value =="Basic Science":
             
             self.SUBJECT_INDEX=11
-        
-        self.GetCE()
+            print self.SUBJECT_INDEX
+            
+        elif self.combo_box_1.Value =="Work Experience":
+            
+            self.SUBJECT_INDEX=12
+            print self.SUBJECT_INDEX
+
+        elif self.combo_box_1.Value =="Art Education":
+            self.SUBJECT_INDEX=13
+            print self.SUBJECT_INDEX
+           
+        elif self.combo_box_1.Value =="Physcal & Health Edu":
+            
+            self.SUBJECT_INDEX=14
+            print self.SUBJECT_INDEX
+        if self.SUBJECT_INDEX==10:# attendance:
+            self.label_4.SetLabel("MAX_CE: NA")
+            
+            self.label_5.SetLabel("MAX_TE: NA")
+        else:
+            self.GetCE()
         self.Set_ReadOnly()
     
         self.Clear_Score()

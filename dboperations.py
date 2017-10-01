@@ -485,9 +485,13 @@ class db_operations():
         '''
         if subject_index==11:
             subject_index=5
-        SUBJ=["LANG","MAL","ENGLISH","HINDI","SS","PHYSICS","CHEMISTRY","BIOLOGY","MATHEMATICS","IT","ATTENDANCE"]
+        elif subject_index>11:# the subject index for work_expand all would start from 12 but here item index is at 10
+            subject_index-=2
+        
+        SUBJ=["LANG","MAL","ENGLISH","HINDI","SS","PHYSICS","CHEMISTRY","BIOLOGY","MATHEMATICS","IT","WORK_EXP","ART_EDU","PHY_EDU"]
         
         query="SELECT CE,TE FROM CE_TE WHERE YEAR=? AND STD=? AND SUBJECT=?"
+        
         #print "in ce\n",query,"\n",std,SUBJ[subject_index]
         self.cur.execute(query,(year,std,SUBJ[subject_index],))
         
@@ -506,8 +510,10 @@ class db_operations():
         '''
         if subject_index==11:
             subject_index=5
-        SUBJ=["LANG","MAL","ENGLISH","HINDI","SS","PHYSICS","CHEMISTRY","BIOLOGY","MATHEMATICS","IT"]
-        
+        elif subject_index>11:# the subject index for work_expand all would start from 12 but here item index is at 10
+            subject_index-=2
+            
+        SUBJ=["LANG","MAL","ENGLISH","HINDI","SS","PHYSICS","CHEMISTRY","BIOLOGY","MATHEMATICS","IT","WORK_EXP","ART_EDU","PHY_EDU"]
         
         #Checks if a year xists
         

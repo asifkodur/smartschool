@@ -54,6 +54,19 @@ class ce_settings(wx.Dialog):
         self.label_11 = wx.StaticText(self, -1, "I.T")
         self.ce_10 = wx.TextCtrl(self, -1, "")
         self.te_10 = wx.TextCtrl(self, -1, "")
+        
+        self.label_16 = wx.StaticText(self, -1, "Work Experience")
+        self.ce_11 = wx.TextCtrl(self, -1, "")
+        self.te_11 = wx.TextCtrl(self, -1, "")
+        
+        self.label_17 = wx.StaticText(self, -1, "Art Education")
+        self.ce_12 = wx.TextCtrl(self, -1, "")
+        self.te_12= wx.TextCtrl(self, -1, "")
+        
+        self.label_18 = wx.StaticText(self, -1, "Physical N Health")
+        self.ce_13 = wx.TextCtrl(self, -1, "")
+        self.te_13 = wx.TextCtrl(self, -1, "")
+        
         self.button_1 = wx.Button(self, -1, "Close")
         self.button_2 = wx.Button(self, -1, "Save")
 
@@ -77,8 +90,13 @@ class ce_settings(wx.Dialog):
         self.ce_6.Bind(wx.EVT_KEY_DOWN, self.onKeyPress)
         self.ce_7.Bind(wx.EVT_KEY_DOWN, self.onKeyPress)
         self.ce_8.Bind(wx.EVT_KEY_DOWN, self.onKeyPress)
-        self.ce_9.Bind(wx.EVT_KEY_DOWN, self.onKeyPress)
+        self.ce_9.Bind(wx.EVT_KEY_DOWN, self.onKeyPress)        
         self.ce_10.Bind(wx.EVT_KEY_DOWN, self.onKeyPress)
+        self.ce_11.Bind(wx.EVT_KEY_DOWN, self.onKeyPress)
+        self.ce_12.Bind(wx.EVT_KEY_DOWN, self.onKeyPress)
+        self.ce_13.Bind(wx.EVT_KEY_DOWN, self.onKeyPress)
+        
+        
         self.te_1.Bind(wx.EVT_KEY_DOWN, self.onKeyPress)
         self.te_2.Bind(wx.EVT_KEY_DOWN, self.onKeyPress)
         self.te_3.Bind(wx.EVT_KEY_DOWN, self.onKeyPress)
@@ -89,6 +107,9 @@ class ce_settings(wx.Dialog):
         self.te_8.Bind(wx.EVT_KEY_DOWN, self.onKeyPress)
         self.te_9.Bind(wx.EVT_KEY_DOWN, self.onKeyPress)
         self.te_10.Bind(wx.EVT_KEY_DOWN, self.onKeyPress)
+        self.te_11.Bind(wx.EVT_KEY_DOWN, self.onKeyPress)
+        self.te_12.Bind(wx.EVT_KEY_DOWN, self.onKeyPress)
+        self.te_13.Bind(wx.EVT_KEY_DOWN, self.onKeyPress)
         
         
         
@@ -123,7 +144,7 @@ class ce_settings(wx.Dialog):
     def __set_properties(self):
         # begin wxGlade: MyFrame2.__set_properties
         self.SetTitle("CE & TE Settings")
-        self.SetSize((400, 507))
+        self.SetSize((400, 577))
         self.label_14.SetFont(wx.Font(11, wx.DEFAULT, wx.NORMAL, wx.BOLD, 0, ""))
         self.combo_box_2.SetMinSize((150, 33))
         self.label_1.SetFont(wx.Font(11, wx.DEFAULT, wx.NORMAL, wx.BOLD, 0, ""))
@@ -153,6 +174,13 @@ class ce_settings(wx.Dialog):
         self.te_9.SetMinSize((50, 23))
         self.ce_10.SetMinSize((50, 23))
         self.te_10.SetMinSize((50, 23))
+        
+        self.ce_11.SetMinSize((50, 23))
+        self.te_11.SetMinSize((50, 23))
+        self.ce_12.SetMinSize((50, 23))
+        self.te_12.SetMinSize((50, 23))
+        self.ce_13.SetMinSize((50, 23))
+        self.te_13.SetMinSize((50, 23))
         self.button_1.SetMinSize((80, 33))
         self.button_2.SetMinSize((80, 33))
         self.button_2.Enabled=False
@@ -166,7 +194,7 @@ class ce_settings(wx.Dialog):
         sizer_1 = wx.BoxSizer(wx.VERTICAL)
         sizer_4 = wx.BoxSizer(wx.VERTICAL)
         sizer_6 = wx.BoxSizer(wx.HORIZONTAL)
-        grid_sizer_1 = wx.GridSizer(11, 3, 4, 5)
+        grid_sizer_1 = wx.GridSizer(11, 3,2, 5)
         sizer_5 = wx.BoxSizer(wx.HORIZONTAL)
         sizer_5.Add(self.label_14, 0, wx.TOP, 5)
         sizer_5.Add(self.combo_box_2, 0, wx.LEFT, 10)
@@ -207,6 +235,20 @@ class ce_settings(wx.Dialog):
         grid_sizer_1.Add(self.label_11, 0, 0, 0)
         grid_sizer_1.Add(self.ce_10, 0, 0, 0)
         grid_sizer_1.Add(self.te_10, 0, 0, 0)
+        
+        grid_sizer_1.Add(self.label_16, 0, 0, 0)
+        grid_sizer_1.Add(self.ce_11, 0, 0, 0)
+        grid_sizer_1.Add(self.te_11, 0, 0, 0)
+        
+        grid_sizer_1.Add(self.label_17, 0, 0, 0)
+        grid_sizer_1.Add(self.ce_12, 0, 0, 0)
+        grid_sizer_1.Add(self.te_12, 0, 0, 0)
+        
+        grid_sizer_1.Add(self.label_18, 0, 0, 0)
+        grid_sizer_1.Add(self.ce_13, 0, 0, 0)
+        grid_sizer_1.Add(self.te_13, 0, 0, 0)
+        
+        
         grid_sizer_1.Add((0, 10), 0, 0, 0)
         sizer_4.Add(grid_sizer_1, 0, wx.ALL | wx.EXPAND, 10)
         sizer_6.Add(self.button_1, 0, wx.LEFT | wx.EXPAND, 40)
@@ -241,18 +283,21 @@ class ce_settings(wx.Dialog):
         event.Skip()
         
     def Rload_CE_TE(self):
-        CE=[self.ce_1,self.ce_2,self.ce_3,self.ce_4,self.ce_5,self.ce_6,self.ce_7,self.ce_8,self.ce_9,self.ce_10]
-        TE=[self.te_1,self.te_2,self.te_3,self.te_4,self.te_5,self.te_6,self.te_7,self.te_8,self.te_9,self.te_10]
+        CE=[self.ce_1,self.ce_2,self.ce_3,self.ce_4,self.ce_5,self.ce_6,self.ce_7,self.ce_8,self.ce_9,self.ce_10,self.ce_11,self.ce_12,self.ce_13]
+        TE=[self.te_1,self.te_2,self.te_3,self.te_4,self.te_5,self.te_6,self.te_7,self.te_8,self.te_9,self.te_10,self.te_11,self.te_12,self.te_13]
         
         
         
-        for i in range(10):
+        for i in range(13):
+            index=i#in deb oper Get_CE_CE() index for work exp starts at 12
+            if i>=10:
+                index+=2
             if self.YEAR=='Select' or self.STD=='Select':
                 CE[i].Value=''
                 TE[i].Value=''
             else:
                 try:
-                    val1,val2=self.DB.Get_CE_TE(self.YEAR,self.STD,i)
+                    val1,val2=self.DB.Get_CE_TE(self.YEAR,self.STD,index)
                     
                     CE[i].Value,TE[i].Value=str(val1),str(val2)
                 except:
@@ -287,17 +332,20 @@ class ce_settings(wx.Dialog):
         event.Skip()
 
     def OnSave(self, event):  # wxGlade: MyFrame2.<event_handler>
-        CE=[self.ce_1,self.ce_2,self.ce_3,self.ce_4,self.ce_5,self.ce_6,self.ce_7,self.ce_8,self.ce_9,self.ce_10]
-        TE=[self.te_1,self.te_2,self.te_3,self.te_4,self.te_5,self.te_6,self.te_7,self.te_8,self.te_9,self.te_10]
+        CE=[self.ce_1,self.ce_2,self.ce_3,self.ce_4,self.ce_5,self.ce_6,self.ce_7,self.ce_8,self.ce_9,self.ce_10,self.ce_11,self.ce_12,self.ce_13]
+        TE=[self.te_1,self.te_2,self.te_3,self.te_4,self.te_5,self.te_6,self.te_7,self.te_8,self.te_9,self.te_10,self.te_11,self.te_12,self.te_13]
         
         
         try:
-            for i in range(10):
+            for i in range(13):
                 if self.YEAR=='Select' or self.STD=='Select':
                     break
                 else:
+                    index=i#in deb oper Get_CE_CE() index for work exp starts at 12
+                    if i>=10:
+                        index+=2
                     
-                    self.DB.Set_CE_TE(self.YEAR,self.STD,i,CE[i].Value,TE[i].Value)
+                    self.DB.Set_CE_TE(self.YEAR,self.STD,index,CE[i].Value,TE[i].Value)
             dlg = wx.MessageDialog(self, 'Successfully Saved', '',wx.OK | wx.ICON_INFORMATION)
             dlg.ShowModal()
             dlg.Destroy()

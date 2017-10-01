@@ -32,11 +32,6 @@ class db_operations():
         
 
         
-        '''path='tables.sql'
-        f=open(path)
-        sql = f.read()
-        self.cur.executescript(sql)
-        '''
     def CreateTables(self):
         
         
@@ -339,9 +334,11 @@ class db_operations():
     def Score_and_Roll(self,term,div_id,subject_index,student_id="All"): # Returns name, adno,roll,the score and roll no of one or all students
         
         # Gathrs info from T1,T2 ot T3 and Returns a tuple
-        
-        
-        SUBJ=["LANG","MAL","ENGLISH","HINDI","SS","PHYSICS","CHEMISTRY","BIOLOGY","MATHEMATICS","IT","ATTENDANCE"]
+        subject_index=int(subject_index)
+        print type(subject_index)
+        if subject_index>10:
+            subject_index=subject_index-1
+        SUBJ=["LANG","MAL","ENGLISH","HINDI","SS","PHYSICS","CHEMISTRY","BIOLOGY","MATHEMATICS","IT","ATTENDANCE","WORK_EXP","ART_EDU","PHY_EDU"]
         score=[
                 ["Edited_STATUS","STUDENT_ID","ADMISSION_NO","NAME","SCORE_ID","ROLL","CE","MAX_CE","TE","MAX_TE"]
                 

@@ -827,11 +827,7 @@ class MyGridForm(wx.Frame):
         else:
             self.Context_Menu.MenuItems[5].Enable(False)# Disabling Paste Menu Item if clipboard mpty
 
-        # End Copy/Paste
         
-        #Begin Enable/Disable Undo/Redo
-        #print "chekin enablin"
-        #print "indx=",self.UNDO_INDEX," length=",len(self.UNDO_LIST)
         if self.UNDO_INDEX>=9 or self.UNDO_INDEX>=(len(self.UNDO_LIST)-1):
             
             self.Context_Menu.MenuItems[0].Enable(False)
@@ -908,11 +904,7 @@ class MyGridForm(wx.Frame):
         self.grid_1.SetColLabelValue(6, "Grade")
         self.grid_1.SetColSize(6, 110)
         
-        #self.grid_1.SetColLabelValue(7, "Attendance")
-        #self.grid_1.SetColSize(7, 120)
         
-        #self.bitmap_button_1.SetSize(self.bitmap_button_1.GetBestSize())
-        #self.bitmap_button_2.SetSize(self.bitmap_button_2.GetBestSize())
         
         self.label_1.SetFont(wx.Font(11, wx.DEFAULT, wx.NORMAL, wx.BOLD, 0, ""))
         self.label_2.SetFont(wx.Font(11, wx.DEFAULT, wx.NORMAL, wx.BOLD, 0, ""))
@@ -995,7 +987,7 @@ class MyGridForm(wx.Frame):
         
     def Save_Clicked(self, event): # wxGlade: MyFrame.<event_handler>
         
-        SUBJ=["LANG","MAL","ENGLISH","HINDI","SS","PHYSICS","CHEMISTRY","BIOLOGY","MATHEMATICS","IT","ATTENDANCE"]
+        SUBJ=["LANG","MAL","ENGLISH","HINDI","SS","PHYSICS","CHEMISTRY","BIOLOGY","MATHEMATICS","IT","ATTENDANCE","WORK_EXP","ART_EDU","PHY_EDU"]
         
         
         
@@ -1008,9 +1000,7 @@ class MyGridForm(wx.Frame):
             
             i=0
             
-            #print "#####################
-            #print "subj",each_subj
-            #print "len of sub",len(self.CURRENT_LIST)
+            
             
             for row in each_subj: 
                 
@@ -1066,7 +1056,10 @@ class MyGridForm(wx.Frame):
                             
                             
                             #print "othr subj"
-                            subj=SUBJ[int(self.SUBJECT_INDEX)]
+                            minus=0
+                            if self.SUBJECT_INDEX>11:minus=1
+                            
+                            subj=SUBJ[int(self.SUBJECT_INDEX)-1]
                             
                             query1="UPDATE STUDENT SET ADMISSION_NO=?,NAME=? WHERE ID=?"
                             
@@ -1079,14 +1072,6 @@ class MyGridForm(wx.Frame):
                             self.DB.Execute(query2,(row[5],row[6],row[8],row[4],))
                             
                             
-                            
-                        """if self.SUBJECT_INDEX==11 and i<10:
-                            
-                            print str(row[6]),"to",i-1,", " ,col_indx+3
-                            print str(row[8]),"to",i-1,", " ,col_indx+4
-                            raw_input("next\n")
-                        """
-                    
                 
                 
                 i+=1
@@ -1285,25 +1270,21 @@ class MyGridForm(wx.Frame):
         elif self.combo_box_1.Value =="Attendance":
             
             self.SUBJECT_INDEX=10
-            print self.SUBJECT_INDEX
         elif self.combo_box_1.Value =="Basic Science":
             
             self.SUBJECT_INDEX=11
-            print self.SUBJECT_INDEX
             
         elif self.combo_box_1.Value =="Work Experience":
             
             self.SUBJECT_INDEX=12
-            print self.SUBJECT_INDEX
 
         elif self.combo_box_1.Value =="Art Education":
             self.SUBJECT_INDEX=13
-            print self.SUBJECT_INDEX
            
         elif self.combo_box_1.Value =="Physcal & Health Edu":
             
             self.SUBJECT_INDEX=14
-            print self.SUBJECT_INDEX
+            
         if self.SUBJECT_INDEX==10:# attendance:
             self.label_4.SetLabel("MAX_CE: NA")
             
@@ -1474,9 +1455,7 @@ class MyGridForm(wx.Frame):
         
             i=0
             
-            #print "#####################col indx=",col_indx
-            #print "subj",each_subj
-            #print "len of sub",len(self.CURRENT_LIST)
+            
             
             for row in each_subj: 
                 
@@ -1510,13 +1489,7 @@ class MyGridForm(wx.Frame):
                     
                     self.CalculateTotal(i-1)#,4+col_indx)
                     
-                    """if self.SUBJECT_INDEX==11 and i<10:
-                        
-                        print str(row[6]),"to",i-1,", " ,col_indx+3
-                        print str(row[8]),"to",i-1,", " ,col_indx+4
-                        raw_input("next\n")
-                    """
-                
+                    
             
                 
                 i+=1
@@ -1787,10 +1760,7 @@ class MyGridForm(wx.Frame):
             
             
             #here are errors regarding structure of self.CURRENTLIST and how it's identified in row obj
-            #print row,"row in valdt adm no"
-            #print "list\n",self.CURRENT_LIST
             current_row=self.CURRENT_LIST[0][row]
-            #print "current value=",current_row
             
             student_id,ad_no=current_row[1],current_row[2]
             query='SELECT ID,NAME FROM STUDENT WHERE ADMISSION_NO='+str(value)
@@ -1891,21 +1861,12 @@ class MyGridForm(wx.Frame):
         self.Populate_From_Current_List()
         
         
-        
-        #print "undolist 1\n",self.UNDO_LIST[0]
-        #print "undolist 2\n",self.UNDO_LIST[1]
-        #print "undolist 3\n",self.UNDO_LIST[2]
-        
-        #print "undo index=",self.UNDO_INDEX," lenght of list=",len(self.UNDO_LIST)
-        
     def Redo(self):
         #print "in redo"
         self.UNDO_INDEX-=1
         self.CURRENT_LIST=self.UNDO_LIST[self.UNDO_INDEX]
         self.Populate_From_Current_List()
         
-        #print "undolist\n",self.UNDO_LIST
-        #print "undo index=",self.UNDO_INDEX
     def OnAnyChange(self,row,col,value=None): #This function evoked if any cell is changed
         #print  "in any change"
         

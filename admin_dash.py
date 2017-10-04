@@ -828,4 +828,4 @@ if __name__ == "__main__":
     main_frame = admin_dash_b(None, wx.ID_ANY, "")
     app.SetTopWindow(main_frame)
     main_frame.Show()
-    app.MainLoop
+    app.MainLoop()

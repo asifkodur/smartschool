@@ -1394,7 +1394,7 @@ class Promotion_List():
     def footer(self,canvas, doc):
         Title = ""
         
-        self.footer_text= "Generated using smart school software. "
+        self.footer_text= "Generated using smart school software. For free download visit https://github.com/asifkodur/smartschool/releases/latest"
         
         
         PAGE_WIDTH,PAGE_HEIGHT=self.mypagesize

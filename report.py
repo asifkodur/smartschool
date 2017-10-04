@@ -88,7 +88,7 @@ class Report():
         #end of measurement
     def footer(self,canvas, doc):
         Title = ""
-        pageinfo = "generated using Smart School Software"
+        pageinfo = "Generated using Smart School Software. For free download visit https://github.com/asifkodur/smartschool/releases/latest"
         
         
         PAGE_WIDTH,PAGE_HEIGHT=self.mypagesize
@@ -759,7 +759,7 @@ class Report_8():
         #end of measurement
     def footer(self,canvas, doc):
         Title = ""
-        pageinfo = "generated using Smart School software.For more details"
+        pageinfo = "Generated using Smart School Software. For free download visit https://github.com/asifkodur/smartschool/releases/latest"
         
         
         PAGE_WIDTH,PAGE_HEIGHT=self.mypagesize

@@ -127,10 +127,11 @@ class institution(wx.Dialog):
         try:
             self.DB.Set_School_Name(self.text_ctrl_name.Value) 
             self.DB.Set_School_Code(self.text_ctrl_code.Value)   
- 
+
             self.DB.Set_School_Email(self.text_ctrl_email.Value)       
             self.DB.Set_School_Contact(self.text_ctrl_phone.Value)
             self.DB.Set_School_DEO(self.text_ctrl_deo.Value)
+            #print "valuses",self.text_ctrl_name.Value,self.text_ctrl_code.Value,self.text_ctrl_email.Value,self.text_ctrl_phone.Value,self.text_ctrl_deo.Value
             dlg = wx.MessageDialog(self, 'Successfully Saved', '',wx.OK | wx.ICON_INFORMATION)
             dlg.ShowModal()
             dlg.Destroy()
@@ -139,7 +140,7 @@ class institution(wx.Dialog):
             dlg.ShowModal()
             dlg.Destroy()
                 
-                
+              
             
         
         self.Close(True)

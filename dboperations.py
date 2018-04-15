@@ -168,7 +168,6 @@ class db_operations():
         else:
             return ""
     def Set_School_Name(self,name):
-        
         E=my_encryption()
         query="UPDATE institution SET NAME=?"
         self.cur.execute(query,(E.encrypt(name),))
@@ -281,7 +280,7 @@ class db_operations():
     
     def Get_Student_Id(self,div_id): #returns the List of Student id of a particular division
         
-        query="SELECT DISTINCT STUDENT_ID FROM T1 WHERE DIV_ID=" + str(div_id)    
+        query="SELECT DISTINCT STUDENT_ID FROM T1 WHERE DIV_ID=" + str(div_id)+" ORDER BY ROLL"
             
 
         self.cur.execute(query)
@@ -335,7 +334,7 @@ class db_operations():
         
         # Gathrs info from T1,T2 ot T3 and Returns a tuple
         subject_index=int(subject_index)
-        print type(subject_index)
+        #print type(subject_index)
         if subject_index>10:
             subject_index=subject_index-1
         SUBJ=["LANG","MAL","ENGLISH","HINDI","SS","PHYSICS","CHEMISTRY","BIOLOGY","MATHEMATICS","IT","ATTENDANCE","WORK_EXP","ART_EDU","PHY_EDU"]

@@ -109,7 +109,7 @@ class Report():
         <para align=center spaceb=3><b>
         <font size=16>%s
 
-        </font> <br/><br/><font size=13>Chennamangallur</font></b>
+        </font> <br/><br/><font size=13>Chennamangallu</font></b>
         </para>'''% (self.school),
         styleSheet["BodyText"])
             

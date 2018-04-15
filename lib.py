@@ -459,6 +459,7 @@ class MyGridForm(wx.Frame):
     def OnPromotion_List(self,event):
         school=self.DB.Get_School_Name()
         deo=self.DB.Get_School_DEO()
+        #print deo,school,"printing1"
         working_days=self.DB.Get_Working_Days(self.YEAR,'3')
         self.P=Promotion_List(self.YEAR,school,self.CLASS,self.DIV,deo,working_days) 
         self.P.run()

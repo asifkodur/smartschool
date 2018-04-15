@@ -134,7 +134,7 @@ class Promotion_List():
     
     def __init__(self,year="",school="",class_="",div="",edu_dist="",working_days="",con=[],mypagesize=A3,path="/tmp/promotion_list.pdf",passwd=''):#(21*cm,25*cm)):
         
-        
+        #print deo,school,"printing1"
         self.path=path
         self.passwd=passwd
         self.year=year
@@ -668,6 +668,11 @@ class Promotion_List():
                                 ('BOX',(59,0),(60,3),1.2,colors.black),
                                 ]
                                 
+    
+    
+    def Populate_School_Basic_Info(self):
+        
+        pass
     def Populate_T1(self,div_id,student_id):
         
         SCORES1=[]                
@@ -807,14 +812,24 @@ class Promotion_List():
             
             if ce3==None:
                 ce3=""
+                print "ce=None"
             if te3==None:
                 te3=''    
                 
             if te3!='': total_te_t3+=te3    
-                           
-            total,grade=self.CalculateGrade(ce3,te3,max_total)
             
-            if grade=='' or grade=='E' or grade=='D':
+            if ce3==0 or te3==0:
+                print "ce or te is zero"
+                total=0
+                grade=''
+            elif ce3=='' or te3=='':
+                print "ce=''"
+                total=''
+                grade=''
+            else:
+                total,grade=self.CalculateGrade(ce3,te3,max_total)
+            
+            if grade=='' or grade=='E' or (  self.class_!='8' and grade=='D'):# D grade fails only for 9,10 std
                 pass3=False
                 
                 SCORES4_nw,promoted,base=self.Find_Average(div_id,student_id,subj_index)
@@ -839,12 +854,19 @@ class Promotion_List():
         return SCORES3,total_te_t3,SCORES4,promoted,base
         
     def Find_Average(self,div_id,student_id,subj_index):
+        print "in avrg"
         
         promoted,base='',''
         SCORES4=['','','','']
         
         max_ce,max_te=self.DB.Get_CE_TE(self.year,self.class_,subj_index)
         max_total=int(max_ce)+int(max_te)
+        
+        #Get T1    
+        score_n_roll=self.DB.Score_and_Roll('1',div_id,subj_index,student_id)[1]   
+        
+        ce1=score_n_roll[6]
+        te1=score_n_roll[8]  
         #Get T2    
         score_n_roll=self.DB.Score_and_Roll('2',div_id,subj_index,student_id)[1]   
         
@@ -857,8 +879,12 @@ class Promotion_List():
         
         ce3=score_n_roll[6]
         te3=score_n_roll[8]  
-            
-                      
+        
+        if ce1 =='' or ce1 ==None:
+            ce1=0                            
+        if te1=='' or te1== None:
+            te1=0
+       
         if ce2 =='' or ce2 ==None:
             ce2=0                            
         if te2=='' or te2== None:
@@ -869,14 +895,23 @@ class Promotion_List():
             te3=0
         
         
-        if (ce2 and te2 and ce3 and te3)==0:
+        if (ce2==0 and te2==0 and ce3==0 and te3==0):
+            
             
             avrg_ce,avrg_te,total,grade='','','',''
             promoted='D'
         else:                        
-       
-            avrg_ce=(int(ce2)+int(ce3))/2
-            avrg_te=(int(te2)+int(te3))/2
+            
+            denominator=0   # if absent for one exam denominator iis adjusted accordingly
+            if (ce1+te1)!=0:denominator+=1
+            if (ce2+te2)!=0:denominator+=1
+            if (ce3+te3)!=0:denominator+=1
+            
+            
+            avrg_ce=(int(ce1)+int(ce2)+int(ce3))/denominator
+            avrg_te=(int(te1)+int(te2)+int(te3))/denominator
+            avrg_ce=int(round(avrg_ce,0))
+            avrg_te=int(round(avrg_te,0))
             total,grade=self.CalculateGrade(avrg_ce,avrg_te,int(max_total))
         
         
@@ -884,7 +919,7 @@ class Promotion_List():
             SCORES4=[avrg_ce,avrg_te,total,grade]
        
                 
-            if grade=='' or grade=='E' or grade=='D': #Faild in Avrg
+            if grade=='' or grade=='E' or (  self.class_!='8' and grade=='D'):# D grade fails only for 9,10 std#Faild in Avrg
                 
                 promoted='D'
                 #SCORES4+=[avrg_ce,avrg_te,total,grade]
@@ -908,7 +943,7 @@ class Promotion_List():
             
             max=int(self.working_days)
             perc=attnd*100/max
-            perc=str(round(perc,1))
+            perc=str(int(round(perc,0)))
             
             style1=ParagraphStyle(name='normal',fontSize = 8,alignment = TA_RIGHT)        
        
@@ -1214,7 +1249,7 @@ class Promotion_List():
 
             SCORES3=[t3_ce_tot,t3_te_tot,total,grade]+['','','','']*2
             
-            if grade !='' and grade!='E' and  grade!='D':# passed
+            if grade !='' and grade!='E' :# passed
                  
                 SCORES4=['','','','']*3
                 
